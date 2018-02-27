@@ -2,3 +2,7 @@
 .settings
 .classpath
 .metadata
+/bin/
+.DS_Store
+doc/
+test/
