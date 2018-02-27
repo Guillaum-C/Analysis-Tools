@@ -45,10 +45,10 @@ public class HipoReader {
 	public HipoReader(List<String> fileList) {
 		this.checkFileList(fileList);
 		this.fileList=fileList;
-		hipoFile = new HipoDataSource();
-		currentFile=0;
-		currentEvent=0;
-		hipoFile.open(fileList.get(currentFile));
+		this.hipoFile = new HipoDataSource();
+		this.currentFile=0;
+		this.currentEvent=0;
+		this.hipoFile.open(fileList.get(currentFile));
 	}
 	
 	/**
@@ -107,13 +107,13 @@ public class HipoReader {
 	 * @return the next event or null if event was the last
 	 */
 	public DataEvent getNextEvent(){
-		currentEvent ++;
+		this.currentEvent ++;
 		DataEvent newEvent = null;
-		if (currentEvent<this.hipoFile.getSize()){
+		if (this.currentEvent<this.hipoFile.getSize()){
 			newEvent = this.hipoFile.getNextEvent();
-		} else if (currentFile<(fileList.size()-1)){
+		} else if (this.currentFile<(this.fileList.size()-1)){
 			this.openNextFile();
-			currentEvent=1;
+			this.currentEvent=1;
 			newEvent = this.hipoFile.getNextEvent();
 		}
 		return newEvent;
@@ -127,9 +127,9 @@ public class HipoReader {
 			return;
 		}
 		this.hipoFile.close();
-		currentFile++;
-		if (this.currentFile<fileList.size()){
-			this.hipoFile.open(this.fileList.get(currentFile));
+		this.currentFile++;
+		if (this.currentFile<this.fileList.size()){
+			this.hipoFile.open(this.fileList.get(this.currentFile));
 		}else{
 			System.out.println("HipoReader: No more files");
 		}
@@ -141,7 +141,7 @@ public class HipoReader {
 	 * @return false is the current event and the current file were the last ones
 	 */
 	public boolean hasNextEvent(){
-		if (currentEvent+1>=this.hipoFile.getSize() && currentFile+1>=fileList.size()){
+		if (this.currentEvent+1>=this.hipoFile.getSize() && this.currentFile+1>=this.fileList.size()){
 			System.out.println("HipoReader: No more events and files");
 			return false;
 		}else{
