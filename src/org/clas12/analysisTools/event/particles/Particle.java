@@ -258,25 +258,4 @@ public class Particle {
 		return -1;
 	}
 	
-//	protected LorentzVector getFourMomentum() {
-//		return fourMomentum;
-//	}
-//	protected void setFourMomentum(LorentzVector fourMomentum) {
-//		this.fourMomentum = fourMomentum;
-//		computePhiTheta();
-//	}
-//	public void setFourMomentum(double px, double py, double pz, double energy){
-//		this.fourMomentum.setPxPyPzE(px, py, pz, energy);
-//		computePhiTheta();
-//	}
-//	public void setFourMomentumMass(double px, double py, double pz, double mass){
-//		this.fourMomentum.setPxPyPzM(px, py, pz,);
-//		computePhiTheta();
-//	}
-//	public void setFourMomentum(Vector3 triMomentum){
-//		this.fourMomentum.setPxPyPzE(triMomentum.x(), triMomentum.y(), triMomentum.z(), energy);
-//		computePhiTheta();
-//	}
-	
-	
 }
