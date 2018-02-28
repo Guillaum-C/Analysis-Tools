@@ -3,19 +3,19 @@ package org.clas12.analysisTools.event.particles;
 public class Proton extends Particle {
 
 	/**
+	 * Particle mass
+	 */
+	private static double mass = 0.938272;
+	
+	/**
 	 * Particle ID in LUND convention (11 electron, 22 gamma, 2212 proton, ...)
 	 */
-	private static int pid = 0;
+	private static int pid = 2212;
 
 	/**
 	 * Particle identification chi2
 	 */
 	private double chi2pid;
-	
-	/**
-	 * Particle mass
-	 */
-	private static double mass = 0.938272;
 	
 	/**
 	 * Create a new proton
