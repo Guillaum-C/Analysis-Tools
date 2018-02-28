@@ -7,49 +7,46 @@ public class Particle {
 	/**
 	 * Particle 3-momentum
 	 */
-	Vector3 momentum;
+	private Vector3 momentum;
 
+	/**
+	 * Particle 4-momentum
+	 */
+	private LorentzVector fourMomentum;
+	
 	/**
 	 * Particle vertex position
 	 */
-	Vector3 vertex;
+	private Vector3 vertex;
 
 	/**
 	 * Particle theta (using clas12 angle convention)
 	 */
-	double theta;
+	private double theta;
 
 	/**
 	 * Particle phi (using clas12 angle convention)
 	 */
-	double phi;
+	private double phi;
 	
 	/**
 	 * Particle charge
 	 */
-	int charge;
+	private int charge;
 
 	/**
 	 * Particle beta (measured by ToF)
 	 */
-	double beta;
+	private double beta;
 
 
 	/**
 	 * Create a new particle
 	 */
 	public Particle() {
+		this.fourMomentum = new LorentzVector();
 		this.momentum = new Vector3();
 		this.vertex = new Vector3();
-	}
-	
-	/**
-	 * Set momentum-vector
-	 * 
-	 * @param momentum  momentum-vector
-	 */
-	public void setMomentum(Vector3 momentum) {
-		this.momentum = momentum;
 	}
 
 	/**
@@ -60,7 +57,11 @@ public class Particle {
 	 * @param pz  z-component
 	 */
 	public void setMomentum(double px, double py, double pz) {
-		this.momentum.setXYZ(px, py, pz);
+		if (this.getMass()!=-1){
+			this.fourMomentum.setPxPyPzM(px, py, pz, this.getMass());
+		}else{
+			this.momentum.setXYZ(px, py, pz);
+		}
 	}
 	
 	/**
@@ -69,7 +70,11 @@ public class Particle {
 	 * @return particle momentum-vector
 	 */
 	public Vector3 getMomentum(){
-		return momentum;
+		if (this.getMass()!=-1){
+			return this.fourMomentum.vect();
+		}else{
+			return this.momentum;
+		}
 	}
 
 	/**
@@ -195,8 +200,8 @@ public class Particle {
 	 * Compute phi thanks to the momentum
 	 */
 	public void computePhiTheta() {
-		this.phi = this.momentum.phi();
-		this.theta = this.momentum.theta();
+		this.phi = this.fourMomentum.phi();
+		this.theta = this.fourMomentum.theta();
 	}
 
 	/**
@@ -234,6 +239,44 @@ public class Particle {
 	public void setBeta(double beta) {
 		this.beta = beta;
 	}
-
-
+	
+	/**
+	 * Get Particle mass
+	 * 
+	 * @return particle mass (-1 if particle is not identified)
+	 */
+	protected double getMass() {
+		return -1;
+	}
+	
+	/**
+	 * Get particle identification
+	 * 
+	 * @return particle identification
+	 */
+	protected int getPid() {
+		return -1;
+	}
+	
+//	protected LorentzVector getFourMomentum() {
+//		return fourMomentum;
+//	}
+//	protected void setFourMomentum(LorentzVector fourMomentum) {
+//		this.fourMomentum = fourMomentum;
+//		computePhiTheta();
+//	}
+//	public void setFourMomentum(double px, double py, double pz, double energy){
+//		this.fourMomentum.setPxPyPzE(px, py, pz, energy);
+//		computePhiTheta();
+//	}
+//	public void setFourMomentumMass(double px, double py, double pz, double mass){
+//		this.fourMomentum.setPxPyPzM(px, py, pz,);
+//		computePhiTheta();
+//	}
+//	public void setFourMomentum(Vector3 triMomentum){
+//		this.fourMomentum.setPxPyPzE(triMomentum.x(), triMomentum.y(), triMomentum.z(), energy);
+//		computePhiTheta();
+//	}
+	
+	
 }
