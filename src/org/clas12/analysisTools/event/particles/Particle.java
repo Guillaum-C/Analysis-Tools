@@ -271,7 +271,6 @@ public class Particle {
 	/** */
 	public double getEnergy(){
 		if (this.getMass()!=-1){
-			System.out.println("Four Mom"+this.fourMomentum.toString());
 			return this.fourMomentum.e();
 		}else{
 			return -1;
