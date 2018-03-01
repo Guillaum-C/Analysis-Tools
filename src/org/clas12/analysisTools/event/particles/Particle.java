@@ -39,6 +39,10 @@ public class Particle {
 	 */
 	private double beta;
 
+	/**
+	 * Particle identification chi2
+	 */
+	private double chi2pid;
 
 	/**
 	 * Create a new particle
@@ -62,6 +66,7 @@ public class Particle {
 		}else{
 			this.momentum.setXYZ(px, py, pz);
 		}
+		this.computePhiTheta();
 	}
 	
 	/**
@@ -74,6 +79,20 @@ public class Particle {
 			return this.fourMomentum.vect();
 		}else{
 			return this.momentum;
+		}
+	}
+	
+	/**
+	 * Get momentum-vector
+	 * 
+	 * @return particle momentum-vector
+	 */
+	public LorentzVector getFourMomentum(){
+		if (this.getMass()==-1){
+			
+			return new LorentzVector(momentum, -1);
+		}else{
+			return this.fourMomentum;
 		}
 	}
 
@@ -249,6 +268,16 @@ public class Particle {
 		return -1;
 	}
 	
+	/** */
+	public double getEnergy(){
+		if (this.getMass()!=-1){
+			System.out.println("Four Mom"+this.fourMomentum.toString());
+			return this.fourMomentum.e();
+		}else{
+			return -1;
+		}
+	}
+	
 	/**
 	 * Get particle identification
 	 * 
@@ -256,6 +285,24 @@ public class Particle {
 	 */
 	protected int getPid() {
 		return -1;
+	}
+	
+	/**
+	 * Get particle identification chi2
+	 * 
+	 * @return particle identification chi2
+	 */
+	public double getChi2pid() {
+		return chi2pid;
+	}
+
+	/**
+	 * Set particle identification chi2
+	 * 
+	 * @param chi2pid  particle identification chi2
+	 */
+	public void setChi2pid(double chi2pid) {
+		this.chi2pid = chi2pid;
 	}
 	
 }
