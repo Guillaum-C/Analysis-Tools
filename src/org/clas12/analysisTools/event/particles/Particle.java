@@ -5,6 +5,11 @@ import org.jlab.clas.physics.Vector3;
 public class Particle {
 
 	/**
+	 * Unique ID
+	 */
+	private int uniqueID;
+	
+	/**
 	 * Particle 3-momentum
 	 */
 	private Vector3 momentum;
@@ -53,6 +58,22 @@ public class Particle {
 		this.vertex = new Vector3();
 	}
 
+	/**
+	 * Set unique ID
+	 * @param uniqueID  unique ID for the particle
+	 */
+	protected void setUniqueID(int uniqueID){
+		this.uniqueID = uniqueID;
+	}
+	
+	/**
+	 * Get unique ID
+	 * @return unique ID
+	 */
+	public int getUniqueID() {
+		return this.uniqueID;
+	}
+	
 	/**
 	 * Set momentum
 	 * 

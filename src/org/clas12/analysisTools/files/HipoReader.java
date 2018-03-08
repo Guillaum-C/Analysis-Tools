@@ -129,6 +129,7 @@ public class HipoReader {
 		this.hipoFile.close();
 		this.currentFile++;
 		if (this.currentFile<this.fileList.size()){
+			System.out.println("Opening File :"+this.fileList.get(this.currentFile)+" ("+this.currentFile+"/"+this.fileList.size()+")");
 			this.hipoFile.open(this.fileList.get(this.currentFile));
 		}else{
 			System.out.println("HipoReader: No more files");

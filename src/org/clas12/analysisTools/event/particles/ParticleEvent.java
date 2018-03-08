@@ -225,6 +225,7 @@ public class ParticleEvent {
 				} else {
 					newParticle = new Particle();
 				}
+				newParticle.setUniqueID(particleIterator);
 				newParticle.setChi2pid(bankParticle.getFloat("chi2pid", particleIterator));
 				newParticle.setCharge(bankParticle.getByte("charge", particleIterator));
 				newParticle.setVertex(bankParticle.getFloat("vx", particleIterator),
@@ -232,6 +233,8 @@ public class ParticleEvent {
 				newParticle.setMomentum(bankParticle.getFloat("px", particleIterator),
 						bankParticle.getFloat("py", particleIterator), bankParticle.getFloat("pz", particleIterator));
 				newParticle.setBeta(bankParticle.getFloat("beta", particleIterator));
+				
+				
 
 				this.addParticle(newParticle);
 			}
