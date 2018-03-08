@@ -206,7 +206,7 @@ public class ParticleEvent {
 	 * 
 	 * @param event  event to analyze
 	 */
-	public void readBanks(DataEvent event){
+	public void readParticleBanks(DataEvent event){
 		if (event.hasBank("REC::Particle") == true) {
 			DataBank bankParticle = event.getBank("REC::Particle");
 

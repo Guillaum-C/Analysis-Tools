@@ -289,7 +289,11 @@ public class Particle {
 		return -1;
 	}
 	
-	/** */
+	/**
+	 * Get Particle energy
+	 * 
+	 * @return particle energy (-1 if particle is not identified)
+	 */
 	public double getEnergy(){
 		if (this.getMass()!=-1){
 			return this.fourMomentum.e();
