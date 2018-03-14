@@ -1,5 +1,6 @@
 package org.clas12.analysisTools.event;
 
+import org.clas12.analysisTools.event.forward.ForwardEvent;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
 import org.jlab.io.base.DataBank;
 import org.jlab.io.base.DataEvent;
@@ -10,6 +11,8 @@ public class Event {
 	 * ParticleEvent containing all particles of the event
 	 */
 	private ParticleEvent particleEvent;
+	
+	private ForwardEvent forwardEvent;
 	
 	private int numberOfTriggerBits = 32;
 	
@@ -22,7 +25,11 @@ public class Event {
 	 * Helicity (can take values +1 or -1)
 	 */
 	private int helicity;
-
+	
+	
+	
+	
+	
 	/**
 	 * Create a new event
 	 */
@@ -107,7 +114,7 @@ public class Event {
 	 * 
 	 * @param event  event to analyze
 	 */
-	public void readEventBanks(DataEvent event){
+	public void readEventParametersBanks(DataEvent event){
 		
 		if (event.hasBank("RUN::config")) {
 			DataBank bank = event.getBank("RUN::config");
@@ -135,8 +142,10 @@ public class Event {
 	 * @param event  event to analyze
 	 */
 	public void readBanks(DataEvent event){
-		this.readEventBanks(event);
+		this.readEventParametersBanks(event);
 		this.particleEvent.readParticleBanks(event);
+		//this.forwardEvent.readForwardBanks(event);
+		//this.forwardEvent.linkBanks(particleEvent);
 	}
 	
 	
