@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.clas12.analysisTools.event.particles.Particle;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
-import org.jMath.Vector.fourVec;
 import org.jlab.detector.base.DetectorType;
 import org.jlab.io.base.DataBank;
 import org.jlab.io.base.DataEvent;
@@ -12,7 +11,7 @@ import org.jlab.io.base.DataEvent;
 public class ForwardTrackerEvent {
 
 	/**
-	 * List of clusters in the calorimeter
+	 * List of forward tracks
 	 */
 	private ArrayList<ForwardRecTrack> forwardTracks;
 	
@@ -50,6 +49,11 @@ public class ForwardTrackerEvent {
 		this.forwardTracks = forwardTracks;
 	}
 
+	/**
+	 * Add a track to the list of tracks
+	 * 
+	 * @param forwardTrack track to add
+	 */
 	public void addForwardTrack(ForwardRecTrack forwardTrack){
 		this.getForwardTracks().add(forwardTrack);
 	}
@@ -71,6 +75,9 @@ public class ForwardTrackerEvent {
 					ForwardRecTrack newRecTrack = new ForwardRecTrack();
 					newRecTrack.readBankRow(bankRecTrack, iteratorRecTrack);
 					this.addForwardTrack(newRecTrack);
+				}
+				if (bankRecTrack.getByte("detector", iteratorRecTrack) == DetectorType.CVT.getDetectorId()){
+					System.out.println("CVTTRACK");
 				}
 			}
 		}

@@ -1,7 +1,6 @@
 package org.clas12.analysisTools.event.forward;
 
 import org.clas12.analysisTools.event.forward.calorimeter.CalorimeterEvent;
-import org.clas12.analysisTools.event.forward.forwardTracker.ForwardRecTrack;
 import org.clas12.analysisTools.event.forward.forwardTracker.ForwardTrackerEvent;
 import org.clas12.analysisTools.event.forward.ftof.FTOFEvent;
 import org.clas12.analysisTools.event.forward.htcc.HTCCEvent;
