@@ -37,11 +37,12 @@ public class ForwardEvent {
 		this.ftofEvent = new FTOFEvent();
 	}
 	
-
 	/**
-	 * @param calorimeterEvent
-	 * @param htccEvent
-	 * @param ftofEvent
+	 * Create new forward event
+	 * 
+	 * @param calorimeterEvent calorimeter event
+	 * @param htccEvent htcc event
+	 * @param ftofEvent ftof event
 	 */
 	public ForwardEvent(CalorimeterEvent calorimeterEvent, HTCCEvent htccEvent, FTOFEvent ftofEvent) {
 		super();
