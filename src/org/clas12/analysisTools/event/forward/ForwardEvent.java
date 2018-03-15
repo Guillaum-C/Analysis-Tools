@@ -1,6 +1,8 @@
 package org.clas12.analysisTools.event.forward;
 
 import org.clas12.analysisTools.event.forward.calorimeter.CalorimeterEvent;
+import org.clas12.analysisTools.event.forward.forwardTracker.ForwardRecTrack;
+import org.clas12.analysisTools.event.forward.forwardTracker.ForwardTrackerEvent;
 import org.clas12.analysisTools.event.forward.ftof.FTOFEvent;
 import org.clas12.analysisTools.event.forward.htcc.HTCCEvent;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
@@ -23,6 +25,11 @@ public class ForwardEvent {
 	 */
 	private HTCCEvent htccEvent;
 	
+	/**
+	 * Forward tracker event containing forward tracks
+	 */
+	private ForwardTrackerEvent forwardTrackerEvent;
+	
 	
 	
 	
@@ -35,6 +42,7 @@ public class ForwardEvent {
 		this.calorimeterEvent = new CalorimeterEvent();
 		this.htccEvent = new HTCCEvent();
 		this.ftofEvent = new FTOFEvent();
+		this.forwardTrackerEvent = new ForwardTrackerEvent();
 	}
 	
 	/**
@@ -44,11 +52,12 @@ public class ForwardEvent {
 	 * @param htccEvent htcc event
 	 * @param ftofEvent ftof event
 	 */
-	public ForwardEvent(CalorimeterEvent calorimeterEvent, HTCCEvent htccEvent, FTOFEvent ftofEvent) {
+	public ForwardEvent(CalorimeterEvent calorimeterEvent, HTCCEvent htccEvent, FTOFEvent ftofEvent, ForwardTrackerEvent forwardTrackerEvent) {
 		super();
 		this.calorimeterEvent = calorimeterEvent;
 		this.htccEvent = htccEvent;
 		this.ftofEvent = ftofEvent;
+		this.forwardTrackerEvent = forwardTrackerEvent;
 	}
 
 	/**
@@ -93,6 +102,20 @@ public class ForwardEvent {
 		this.ftofEvent = ftofEvent;
 	}
 	
+	/**
+	 * @return the forwardTrackerEvent
+	 */
+	public ForwardTrackerEvent getForwardTrackerEvent() {
+		return forwardTrackerEvent;
+	}
+
+	/**
+	 * @param forwardTrackerEvent the forwardTrackerEvent to set
+	 */
+	public void setForwardTrackerEvent(ForwardTrackerEvent forwardTrackerEvent) {
+		this.forwardTrackerEvent = forwardTrackerEvent;
+	}
+
 	
 	
 	
@@ -106,6 +129,7 @@ public class ForwardEvent {
 		calorimeterEvent.readBanks(event);
 		ftofEvent.readBanks(event);
 		htccEvent.readBanks(event);
+		forwardTrackerEvent.readBanks(event);
 	}
 	
 	/**
@@ -117,6 +141,7 @@ public class ForwardEvent {
 		calorimeterEvent.linkBanks(particleEvent);
 		ftofEvent.linkBanks(particleEvent);
 		htccEvent.linkBanks(particleEvent);
+		forwardTrackerEvent.linkBanks(particleEvent);
 	}
 	
 }

@@ -3,6 +3,7 @@ package org.clas12.analysisTools.event.particles;
 import java.util.ArrayList;
 
 import org.clas12.analysisTools.event.forward.calorimeter.CalorimeterRecCluster;
+import org.clas12.analysisTools.event.forward.forwardTracker.ForwardRecTrack;
 import org.clas12.analysisTools.event.forward.ftof.FTOFRecCluster;
 import org.clas12.analysisTools.event.forward.htcc.HTCCRecCluster;
 import org.jlab.clas.physics.Vector3;
@@ -69,6 +70,10 @@ public class Particle {
 	 */
 	private ArrayList<HTCCRecCluster> htccRecClusters;
 	
+	/**
+	 * Track in the forward detector associated with the particle
+	 */
+	private ForwardRecTrack forwardRecTrack;
 	
 	
 	
@@ -83,6 +88,7 @@ public class Particle {
 		this.calorimeterRecClusters = new ArrayList<>();
 		this.ftofRecClusters = new ArrayList<>();
 		this.htccRecClusters = new ArrayList<>();
+		this.forwardRecTrack = null;
 	}
 
 	/**
@@ -359,7 +365,14 @@ public class Particle {
 	
 	
 	
-	
+
+	/**
+	 * @return the calorimeterRecClusters
+	 */
+	public ArrayList<CalorimeterRecCluster> getCalorimeterRecClusters() {
+		return calorimeterRecClusters;
+	}
+
 	/**
 	 * Add a calorimeter cluster associated with the current particle
 	 * 
@@ -370,21 +383,21 @@ public class Particle {
 	}
 	
 	/**
-	 * Get calorimeter clusters
-	 * 
-	 * @return the list of calorimeter clusters
-	 */
-	public ArrayList<CalorimeterRecCluster> getCalorimeterClusters(){
-		return this.calorimeterRecClusters;
-	}
-	
-	/**
 	 * Get number of calorimeter clusters
 	 * 
 	 * @return the number of calorimeter clusters
 	 */
 	public int hasCalorimeterClusters(){
-		return this.getCalorimeterClusters().size();
+		return this.getCalorimeterRecClusters().size();
+	}
+
+	/**
+	 * Get ftof clusters
+	 * 
+	 * @return the list of ftof clusters
+	 */
+	public ArrayList<FTOFRecCluster> getFTOFClusters(){
+		return this.ftofRecClusters;
 	}
 	
 	/**
@@ -397,15 +410,6 @@ public class Particle {
 	}
 	
 	/**
-	 * Get ftof clusters
-	 * 
-	 * @return the list of ftof clusters
-	 */
-	public ArrayList<FTOFRecCluster> getFTOFClusters(){
-		return this.ftofRecClusters;
-	}
-	
-	/**
 	 * Get number of FTOF clusters
 	 * 
 	 * @return the number of FTOF clusters
@@ -414,6 +418,15 @@ public class Particle {
 		return this.getFTOFClusters().size();
 	}
 	
+	/**
+	 * Get htcc clusters
+	 * 
+	 * @return the list of htcc clusters
+	 */
+	public ArrayList<HTCCRecCluster> getHTCCClusters() {
+		return htccRecClusters;
+	}
+
 	/**
 	 * Add a htcc cluster associated with the current particle
 	 * 
@@ -424,21 +437,41 @@ public class Particle {
 	}
 
 	/**
-	 * Get htcc clusters
-	 * 
-	 * @return the list of htcc clusters
-	 */
-	public ArrayList<HTCCRecCluster> getHTCCClusters() {
-		return htccRecClusters;
-	}
-		
-	/**
 	 * Get number of HTCC clusters
 	 * 
 	 * @return the number of HTCC clusters
 	 */
 	public int hasHTCCClusters(){
 		return this.getHTCCClusters().size();
+	}
+
+	
+
+	/**
+	 * @return the forwardRecTrack
+	 */
+	public ForwardRecTrack getForwardRecTrack() {
+		return forwardRecTrack;
+	}
+	
+	/**
+	 * @param forwardRecTrack the forwardRecTrack to set
+	 */
+	public void setForwardRecTrack(ForwardRecTrack forwardRecTrack) {
+		this.forwardRecTrack = forwardRecTrack;
+	}
+	
+
+	/**
+	 * Get 1 if there is a forward track, 0 else
+	 * @return the number of forward tracks (1 or 0)
+	 */
+	public int hasForwardTrack(){
+		if (this.getForwardRecTrack()!=null){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 	
 }

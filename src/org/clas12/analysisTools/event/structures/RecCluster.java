@@ -230,7 +230,6 @@ public class RecCluster {
 	 */
 	public void readBankRow(DataBank bankRec, int bankRow){
 		int id = bankRec.getShort("index", bankRow);
-		int particleId = bankRec.getShort("pindex", bankRow);
 		int detector = bankRec.getByte("detector", bankRow);
 		int sector = bankRec.getByte("sector", bankRow);
 		int layer = bankRec.getByte("layer", bankRow);
@@ -241,9 +240,9 @@ public class RecCluster {
 		double x = bankRec.getFloat("x", bankRow);
 		double y = bankRec.getFloat("y", bankRow);
 		double z = bankRec.getFloat("z", bankRow);
+		int particleId = bankRec.getShort("pindex", bankRow);
 		
 		this.setUniqueID(id);
-		this.setParticleId(particleId);
 		this.setDetector(detector);
 		this.setSector(sector);
 		this.setLayer(layer);
@@ -252,6 +251,7 @@ public class RecCluster {
 		this.setPath(path);
 		this.setChi2(chi2);
 		this.setPosition(new Vector3(x,y,z));
+		this.setParticleId(particleId);
 	}
 	
 }

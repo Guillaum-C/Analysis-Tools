@@ -23,12 +23,11 @@ public class CalorimeterEvent {
 	 * Create new calorimeter event
 	 */
 	public CalorimeterEvent() {
-		super();
+		super();                                                        
 		calorimeterClusters = new ArrayList<>();
-	}
-	
+	}                                                                                             
 
-	/**
+	/**                                                                                                                                                                                                                               
 	 * @param calorimeterClusters
 	 */
 	public CalorimeterEvent(ArrayList<CalorimeterRecCluster> calorimeterClusters) {
