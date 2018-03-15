@@ -234,8 +234,6 @@ public class ParticleEvent {
 						bankParticle.getFloat("py", particleIterator), bankParticle.getFloat("pz", particleIterator));
 				newParticle.setBeta(bankParticle.getFloat("beta", particleIterator));
 				
-				
-
 				this.addParticle(newParticle);
 			}
 

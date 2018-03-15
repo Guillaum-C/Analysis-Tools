@@ -1,5 +1,10 @@
 package org.clas12.analysisTools.event.particles;
 
+import java.util.ArrayList;
+
+import org.clas12.analysisTools.event.forward.calorimeter.CalorimeterRecCluster;
+import org.clas12.analysisTools.event.forward.ftof.FTOFRecCluster;
+import org.clas12.analysisTools.event.forward.htcc.HTCCRecCluster;
 import org.jlab.clas.physics.Vector3;
 
 public class Particle {
@@ -7,7 +12,7 @@ public class Particle {
 	/**
 	 * Unique ID
 	 */
-	private int uniqueID;
+	private int particleId;
 	
 	/**
 	 * Particle 3-momentum
@@ -50,6 +55,25 @@ public class Particle {
 	private double chi2pid;
 
 	/**
+	 * Calorimeter clusters associated with the particle
+	 */
+	private ArrayList<CalorimeterRecCluster> calorimeterRecClusters;
+	
+	/**
+	 * Ftof clusters associated with the particle
+	 */
+	private ArrayList<FTOFRecCluster> ftofRecClusters;
+	
+	/**
+	 * Htcc clusters associated with the particle
+	 */
+	private ArrayList<HTCCRecCluster> htccRecClusters;
+	
+	
+	
+	
+	
+	/**
 	 * Create a new particle
 	 */
 	public Particle() {
@@ -60,18 +84,18 @@ public class Particle {
 
 	/**
 	 * Set unique ID
-	 * @param uniqueID  unique ID for the particle
+	 * @param particleId  unique ID for the particle
 	 */
-	protected void setUniqueID(int uniqueID){
-		this.uniqueID = uniqueID;
+	protected void setParticleId(int particleId){
+		this.particleId = particleId;
 	}
 	
 	/**
 	 * Get unique ID
 	 * @return unique ID
 	 */
-	public int getUniqueID() {
-		return this.uniqueID;
+	public int getParticleId() {
+		return this.particleId;
 	}
 	
 	/**
@@ -329,4 +353,56 @@ public class Particle {
 		this.chi2pid = chi2pid;
 	}
 	
+	/**
+	 * Add a calorimeter cluster associated with the current particle
+	 * 
+	 * @param calorimeterCluster calorimeter cluster to associate
+	 */
+	public void addCalorimeterCluster(CalorimeterRecCluster calorimeterCluster){
+		this.calorimeterRecClusters.add(calorimeterCluster);
+	}
+	
+	/**
+	 * Get calorimeter clusters
+	 * 
+	 * @return the list of calorimeter clusters
+	 */
+	public ArrayList<CalorimeterRecCluster> getCalorimeterClusters(){
+		return this.calorimeterRecClusters;
+	}
+	
+	/**
+	 * Add a ftof cluster associated with the current particle
+	 * 
+	 * @param ftofCluster ftof cluster to associate
+	 */
+	public void addFtofCluster(FTOFRecCluster ftofCluster){
+		this.ftofRecClusters.add(ftofCluster);
+	}
+	
+	/**
+	 * Get ftof clusters
+	 * 
+	 * @return the list of ftof clusters
+	 */
+	public ArrayList<FTOFRecCluster> getFtofClusters(){
+		return this.ftofRecClusters;
+	}
+	
+	/**
+	 * Add a htcc cluster associated with the current particle
+	 * 
+	 * @param htccCluster htcc cluster to associate
+	 */
+	public void addHtccCluster(HTCCRecCluster htccCluster){
+		this.htccRecClusters.add(htccCluster);
+	}
+
+	/**
+	 * @return the list of htcc clusters
+	 */
+	public ArrayList<HTCCRecCluster> getHtccRecClusters() {
+		return htccRecClusters;
+	}
+		
 }
