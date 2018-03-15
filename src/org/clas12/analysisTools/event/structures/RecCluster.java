@@ -42,7 +42,7 @@ public class RecCluster {
 	private double path;
 	
 	/**
-	 * Chi2 (or quality) of hit-track matching
+	 * Chi2 (or quality) of cluster-track matching
 	 */
 	private double chi2;
 	
