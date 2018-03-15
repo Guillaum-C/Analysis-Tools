@@ -2,7 +2,6 @@ package org.clas12.analysisTools.event.forward.ftof;
 
 import java.util.ArrayList;
 
-import org.clas12.analysisTools.event.forward.calorimeter.CalorimeterRecCluster;
 import org.clas12.analysisTools.event.particles.Particle;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
 import org.jlab.detector.base.DetectorType;
@@ -20,6 +19,14 @@ public class FTOFEvent {
 	
 	
 	
+	/**
+	 * Create new Ftof event
+	 */
+	public FTOFEvent() {
+		super();
+		this.ftofClusters = new ArrayList<>();
+	}
+
 	/**
 	 * @param ftofClusters
 	 */
@@ -64,7 +71,7 @@ public class FTOFEvent {
 		if (event.hasBank("REC::Scintillator") == true) {
 			DataBank bankRecFtof = event.getBank("REC::Scintillator");
 			for (int iteratorRecFtof = 0; iteratorRecFtof < bankRecFtof.rows(); iteratorRecFtof++) { /* For all cluster */
-				if (bankRecFtof.getFloat("detector", iteratorRecFtof) == DetectorType.FTOF.getDetectorId()){
+				if (bankRecFtof.getByte("detector", iteratorRecFtof) == DetectorType.FTOF.getDetectorId()){
 					FTOFRecCluster newClusterRecFtof = new FTOFRecCluster();
 					newClusterRecFtof.readBankRow(bankRecFtof, iteratorRecFtof);
 					this.addFtofCluster(newClusterRecFtof);
@@ -83,7 +90,7 @@ public class FTOFEvent {
 			for (Particle particle : particleEvent.getParticles()){
 				if (particle.getParticleId()==clusterRecFtof.getParticleId()){
 					clusterRecFtof.setParticle(particle);
-					particle.addFtofCluster(clusterRecFtof);
+					particle.addFTOFCluster(clusterRecFtof);
 				}
 			}
 		}

@@ -229,8 +229,8 @@ public class RecCluster {
 	 * @param bankRow row of the bank
 	 */
 	public void readBankRow(DataBank bankRec, int bankRow){
-		int id = bankRec.getShort("id", bankRow);
-		int particleId = bankRec.getByte("pindex", bankRow);
+		int id = bankRec.getShort("index", bankRow);
+		int particleId = bankRec.getShort("pindex", bankRow);
 		int detector = bankRec.getByte("detector", bankRow);
 		int sector = bankRec.getByte("sector", bankRow);
 		int layer = bankRec.getByte("layer", bankRow);

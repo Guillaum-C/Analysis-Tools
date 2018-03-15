@@ -44,11 +44,10 @@ public class HTCCRecCluster extends RecCluster {
 	 * Add htcc-specific bank entries
 	 */
 	public void readBankRow(DataBank bankRec, int bankRow){
-		int id = bankRec.getShort("id", bankRow);
-		int particleId = bankRec.getByte("pindex", bankRow);
+		int id = bankRec.getShort("index", bankRow);
+		int particleId = bankRec.getShort("pindex", bankRow);
 		int detector = bankRec.getByte("detector", bankRow);
 		int sector = bankRec.getByte("sector", bankRow);
-		int layer = bankRec.getByte("layer", bankRow);
 		
 		int numberPhotoElectron = bankRec.getShort("nphe", bankRow);
 		
@@ -63,7 +62,6 @@ public class HTCCRecCluster extends RecCluster {
 		this.setParticleId(particleId);
 		this.setDetector(detector);
 		this.setSector(sector);
-		this.setLayer(layer);
 		
 		this.setNphe(numberPhotoElectron);
 		

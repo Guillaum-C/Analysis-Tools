@@ -1,5 +1,7 @@
 package org.clas12.analysisTools.event;
 
+import org.clas12.analysisTools.constants.BeamConstants;
+import org.clas12.analysisTools.constants.DaqConstants;
 import org.clas12.analysisTools.event.forward.ForwardEvent;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
 import org.jlab.io.base.DataBank;
@@ -12,14 +14,15 @@ public class Event {
 	 */
 	private ParticleEvent particleEvent;
 	
+	/**
+	 * ForwardEvent containing forward hits/clusters of the event
+	 */
 	private ForwardEvent forwardEvent;
-	
-	private int numberOfTriggerBits = 32;
 	
 	/**
 	 * Trigger bits (1 if the trigger bit is "on"
 	 */
-	private boolean[] trigger_bits = new boolean[numberOfTriggerBits];
+	private boolean[] trigger_bits = new boolean[DaqConstants.NUMBER_OF_TRIGGER_BITS];
 	
 	/**
 	 * Helicity (can take values +1 or -1)
@@ -35,8 +38,22 @@ public class Event {
 	 */
 	public Event(){
 		particleEvent = new ParticleEvent();
+		forwardEvent = new ForwardEvent();
 	}
 	
+	/**
+	 * @param particleEvent ParticleEvent containing particles
+	 * @param forwardEvent ForwardEvent containing forward reconstructed clusters
+	 */
+	public Event(ParticleEvent particleEvent, ForwardEvent forwardEvent) {
+		super();
+		this.particleEvent = particleEvent;
+		this.forwardEvent = forwardEvent;
+	}
+	
+
+
+
 	/**
 	 * Get the ParticleEvent containing all particles of the event
 	 * 
@@ -62,10 +79,10 @@ public class Event {
 	 * @return value of the trigger bit (true if "ON" false if "OFF")
 	 */
 	public boolean getTrigger_bit(int triggerBit){
-		if (triggerBit >= 0 && triggerBit < numberOfTriggerBits){
+		if (triggerBit >= 0 && triggerBit < DaqConstants.NUMBER_OF_TRIGGER_BITS){
 			return trigger_bits[triggerBit];
 		}else{
-			throw new IllegalArgumentException("Trigger bit has to be between 0 and "+numberOfTriggerBits);
+			throw new IllegalArgumentException("Trigger bit has to be between 0 and "+(DaqConstants.NUMBER_OF_TRIGGER_BITS-1));
 		}
 	}
 	
@@ -109,6 +126,10 @@ public class Event {
 		}
 	}
 	
+	
+	
+	
+	
 	/**
 	 * Read general event parameters (helicity, trigger bits, ...)
 	 * 
@@ -119,7 +140,7 @@ public class Event {
 		if (event.hasBank("RUN::config")) {
 			DataBank bank = event.getBank("RUN::config");
 			long TriggerWord = bank.getLong("trigger", 0);
-			for (int i = 31; i >= 0; i--) {
+			for (int i = DaqConstants.NUMBER_OF_TRIGGER_BITS-1; i >= 0; i--) {
 				trigger_bits[i] = (TriggerWord & (1 << i)) != 0;
 			}
 			this.setTrigger_bits(trigger_bits);
@@ -128,7 +149,7 @@ public class Event {
 		if (event.hasBank("HEL::adc") == true) {
 			DataBank bankParticle = event.getBank("HEL::adc");
 			int pedestal = bankParticle.getShort("ped", 0);
-			if (pedestal>1000){
+			if (pedestal>BeamConstants.HELICITY_ADC_THRESHOLD){
 				this.setHelicity(1);
 			}else{
 				this.setHelicity(-1);
@@ -137,15 +158,15 @@ public class Event {
 	}
 	
 	/**
-	 * Read event banks (event parameters, particles, detectors ...)
+	 * Read all banks (event parameters, particles, detectors ...)
 	 * 
 	 * @param event  event to analyze
 	 */
 	public void readBanks(DataEvent event){
 		this.readEventParametersBanks(event);
 		this.particleEvent.readParticleBanks(event);
-		//this.forwardEvent.readForwardBanks(event);
-		//this.forwardEvent.linkBanks(particleEvent);
+		this.forwardEvent.readForwardBanks(event);
+		this.forwardEvent.linkBanks(particleEvent);
 	}
 	
 	

@@ -20,6 +20,15 @@ public class CalorimeterEvent {
 	
 	
 	/**
+	 * Create new calorimeter event
+	 */
+	public CalorimeterEvent() {
+		super();
+		calorimeterClusters = new ArrayList<>();
+	}
+	
+
+	/**
 	 * @param calorimeterClusters
 	 */
 	public CalorimeterEvent(ArrayList<CalorimeterRecCluster> calorimeterClusters) {
@@ -47,7 +56,7 @@ public class CalorimeterEvent {
 	 * @param calorimeterRecCluster cluster to add
 	 */
 	public void addCalorimeterCluster(CalorimeterRecCluster calorimeterRecCluster){
-		
+		this.getCalorimeterClusters().add(calorimeterRecCluster);
 	}
 	
 	
@@ -66,7 +75,7 @@ public class CalorimeterEvent {
 				if (bankRecCalo.getByte("detector", iteratorRecCalo) == DetectorType.ECAL.getDetectorId()){
 					CalorimeterRecCluster newClusterRecCalo = new CalorimeterRecCluster();
 					newClusterRecCalo.readBankRow(bankRecCalo, iteratorRecCalo);
-					
+					this.addCalorimeterCluster(newClusterRecCalo);
 				}
 			}
 		}
@@ -78,7 +87,7 @@ public class CalorimeterEvent {
 	 * @param particleEvent
 	 */
 	public void linkBanks(ParticleEvent particleEvent){
-		for (CalorimeterRecCluster clusterRecCalo : calorimeterClusters){
+		for (CalorimeterRecCluster clusterRecCalo : this.getCalorimeterClusters()){
 			for (Particle particle : particleEvent.getParticles()){
 				if (particle.getParticleId()==clusterRecCalo.getParticleId()){
 					clusterRecCalo.setParticle(particle);

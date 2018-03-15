@@ -80,6 +80,9 @@ public class Particle {
 		this.fourMomentum = new LorentzVector();
 		this.momentum = new Vector3();
 		this.vertex = new Vector3();
+		this.calorimeterRecClusters = new ArrayList<>();
+		this.ftofRecClusters = new ArrayList<>();
+		this.htccRecClusters = new ArrayList<>();
 	}
 
 	/**
@@ -353,6 +356,10 @@ public class Particle {
 		this.chi2pid = chi2pid;
 	}
 	
+	
+	
+	
+	
 	/**
 	 * Add a calorimeter cluster associated with the current particle
 	 * 
@@ -372,11 +379,20 @@ public class Particle {
 	}
 	
 	/**
+	 * Get number of calorimeter clusters
+	 * 
+	 * @return the number of calorimeter clusters
+	 */
+	public int hasCalorimeterClusters(){
+		return this.getCalorimeterClusters().size();
+	}
+	
+	/**
 	 * Add a ftof cluster associated with the current particle
 	 * 
 	 * @param ftofCluster ftof cluster to associate
 	 */
-	public void addFtofCluster(FTOFRecCluster ftofCluster){
+	public void addFTOFCluster(FTOFRecCluster ftofCluster){
 		this.ftofRecClusters.add(ftofCluster);
 	}
 	
@@ -385,8 +401,17 @@ public class Particle {
 	 * 
 	 * @return the list of ftof clusters
 	 */
-	public ArrayList<FTOFRecCluster> getFtofClusters(){
+	public ArrayList<FTOFRecCluster> getFTOFClusters(){
 		return this.ftofRecClusters;
+	}
+	
+	/**
+	 * Get number of FTOF clusters
+	 * 
+	 * @return the number of FTOF clusters
+	 */
+	public int hasFTOFClusters(){
+		return this.getFTOFClusters().size();
 	}
 	
 	/**
@@ -394,15 +419,26 @@ public class Particle {
 	 * 
 	 * @param htccCluster htcc cluster to associate
 	 */
-	public void addHtccCluster(HTCCRecCluster htccCluster){
+	public void addHTCCCluster(HTCCRecCluster htccCluster){
 		this.htccRecClusters.add(htccCluster);
 	}
 
 	/**
+	 * Get htcc clusters
+	 * 
 	 * @return the list of htcc clusters
 	 */
-	public ArrayList<HTCCRecCluster> getHtccRecClusters() {
+	public ArrayList<HTCCRecCluster> getHTCCClusters() {
 		return htccRecClusters;
 	}
 		
+	/**
+	 * Get number of HTCC clusters
+	 * 
+	 * @return the number of HTCC clusters
+	 */
+	public int hasHTCCClusters(){
+		return this.getHTCCClusters().size();
+	}
+	
 }
