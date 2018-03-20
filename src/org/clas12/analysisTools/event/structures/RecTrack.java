@@ -7,7 +7,7 @@ import org.jlab.io.base.DataBank;
 public class RecTrack {
 
 	/**
-	 * Id of the track (starting at 0) (unique central, forward)
+	 * Id of the track (starting at 0) (unique for central, unique for forward)
 	 */
 	private int uniqueID;
 

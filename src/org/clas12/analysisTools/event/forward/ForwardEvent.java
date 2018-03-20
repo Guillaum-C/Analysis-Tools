@@ -34,7 +34,7 @@ public class ForwardEvent {
 	
 	
 	/**
-	 * Create new Forward event
+	 * Create new forward event
 	 */
 	public ForwardEvent() {
 		super();
@@ -50,6 +50,7 @@ public class ForwardEvent {
 	 * @param calorimeterEvent calorimeter event
 	 * @param htccEvent htcc event
 	 * @param ftofEvent ftof event
+	 * @param forwardTrackerEvent forward tracker event
 	 */
 	public ForwardEvent(CalorimeterEvent calorimeterEvent, HTCCEvent htccEvent, FTOFEvent ftofEvent, ForwardTrackerEvent forwardTrackerEvent) {
 		super();

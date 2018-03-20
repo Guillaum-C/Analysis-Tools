@@ -22,6 +22,7 @@ public class ParticleEvent {
 
 	/**
 	 * Create an empty particle event
+	 * @param particles list of particles
 	 */
 	public ParticleEvent(ArrayList<Particle> particles){
 		this.particles = particles;
@@ -124,7 +125,7 @@ public class ParticleEvent {
 	/**
 	 * Add a list of particles to the current event
 	 * 
-	 * @param particle 
+	 * @param particle particle to add
 	 */
 	public void addParticle(Particle... newParticles){
 		for (Particle particle : newParticles){

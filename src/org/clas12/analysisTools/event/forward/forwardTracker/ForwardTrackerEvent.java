@@ -50,7 +50,7 @@ public class ForwardTrackerEvent {
 	}
 
 	/**
-	 * Add a track to the list of tracks
+	 * Add a track to the list of forward tracks
 	 * 
 	 * @param forwardTrack track to add
 	 */
@@ -70,14 +70,11 @@ public class ForwardTrackerEvent {
 	public void readBanks(DataEvent event){
 		if (event.hasBank("REC::Track") == true) {
 			DataBank bankRecTrack = event.getBank("REC::Track");
-			for (int iteratorRecTrack = 0; iteratorRecTrack < bankRecTrack.rows(); iteratorRecTrack++) { /* For all cluster */
+			for (int iteratorRecTrack = 0; iteratorRecTrack < bankRecTrack.rows(); iteratorRecTrack++) {
 				if (bankRecTrack.getByte("detector", iteratorRecTrack) == DetectorType.DC.getDetectorId()){
 					ForwardRecTrack newRecTrack = new ForwardRecTrack();
 					newRecTrack.readBankRow(bankRecTrack, iteratorRecTrack);
 					this.addForwardTrack(newRecTrack);
-				}
-				if (bankRecTrack.getByte("detector", iteratorRecTrack) == DetectorType.CVT.getDetectorId()){
-					System.out.println("CVTTRACK");
 				}
 			}
 		}
@@ -86,7 +83,7 @@ public class ForwardTrackerEvent {
 	/**
 	 * Associate reconstructed tracks with a particle
 	 * 
-	 * @param particleEvent
+	 * @param particleEvent particle event containing particles to link with tracks
 	 */
 	public void linkBanks(ParticleEvent particleEvent){
 		for (ForwardRecTrack forwardTrack : forwardTracks){

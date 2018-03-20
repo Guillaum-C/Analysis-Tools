@@ -2,6 +2,7 @@ package org.clas12.analysisTools.event.particles;
 
 import java.util.ArrayList;
 
+import org.clas12.analysisTools.event.central.cvt.CVTRecTrack;
 import org.clas12.analysisTools.event.forward.calorimeter.CalorimeterRecCluster;
 import org.clas12.analysisTools.event.forward.forwardTracker.ForwardRecTrack;
 import org.clas12.analysisTools.event.forward.ftof.FTOFRecCluster;
@@ -11,7 +12,7 @@ import org.jlab.clas.physics.Vector3;
 public class Particle {
 
 	/**
-	 * Unique ID
+	 * Unique ID (starts at 0)
 	 */
 	private int particleId;
 	
@@ -74,6 +75,12 @@ public class Particle {
 	 * Track in the forward detector associated with the particle
 	 */
 	private ForwardRecTrack forwardRecTrack;
+
+	/**
+	 * Track in the central detector associated with the particle
+	 */
+	private CVTRecTrack cvtRecTrack;
+	
 	
 	
 	
@@ -92,15 +99,19 @@ public class Particle {
 	}
 
 	/**
-	 * Set unique ID
+	 * Set unique ID (starts at 0)
 	 * @param particleId  unique ID for the particle
 	 */
 	protected void setParticleId(int particleId){
-		this.particleId = particleId;
+		if (particleId>=0){
+			this.particleId = particleId;
+		}else{
+			throw new IllegalArgumentException("Particle ID cannot be strictly negative");
+		}
 	}
 	
 	/**
-	 * Get unique ID
+	 * Get unique ID (starts at 0)
 	 * @return unique ID
 	 */
 	public int getParticleId() {
@@ -307,7 +318,7 @@ public class Particle {
 	/**
 	 * Set beta (measured by ToF)
 	 * 
-	 * @return beta
+	 * @return beta beta
 	 */
 	public void setBeta(double beta) {
 		this.beta = beta;
@@ -445,8 +456,6 @@ public class Particle {
 		return this.getHTCCClusters().size();
 	}
 
-	
-
 	/**
 	 * @return the forwardRecTrack
 	 */
@@ -461,9 +470,8 @@ public class Particle {
 		this.forwardRecTrack = forwardRecTrack;
 	}
 	
-
 	/**
-	 * Get 1 if there is a forward track, 0 else
+	 * Get the number of forward tracks associated with this particle (0 or 1)
 	 * @return the number of forward tracks (1 or 0)
 	 */
 	public int hasForwardTrack(){
@@ -473,5 +481,34 @@ public class Particle {
 			return 0;
 		}
 	}
+
+	
+	/**
+	 * @return the cvtRecTrack
+	 */
+	public CVTRecTrack getCvtRecTrack() {
+		return cvtRecTrack;
+	}
+	
+	/**
+	 * @param cvtRecTrack the cvtRecTrack to set
+	 */
+	public void setCvtRecTrack(CVTRecTrack cvtRecTrack) {
+		this.cvtRecTrack = cvtRecTrack;
+	}
+	
+	/**
+	 * Get the number of central tracks associated with this particle (0 or 1)
+	 * @return the number of central tracks (1 or 0)
+	 */
+	public int hasCentralTrack(){
+		if (this.getCvtRecTrack()!=null){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+	
+	
 	
 }

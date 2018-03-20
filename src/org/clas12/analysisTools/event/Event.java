@@ -2,6 +2,7 @@ package org.clas12.analysisTools.event;
 
 import org.clas12.analysisTools.constants.BeamConstants;
 import org.clas12.analysisTools.constants.DaqConstants;
+import org.clas12.analysisTools.event.central.CentralEvent;
 import org.clas12.analysisTools.event.forward.ForwardEvent;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
 import org.jlab.io.base.DataBank;
@@ -15,9 +16,14 @@ public class Event {
 	private ParticleEvent particleEvent;
 	
 	/**
-	 * ForwardEvent containing forward hits/clusters of the event
+	 * ForwardEvent containing forward hits/clusters/track of the event
 	 */
 	private ForwardEvent forwardEvent;
+	
+	/**
+	 * CentralEvent containing central hits/clusters/tracks of the event
+	 */
+	private CentralEvent centralEvent;
 	
 	/**
 	 * Trigger bits (1 if the trigger bit is "on"
@@ -39,16 +45,19 @@ public class Event {
 	public Event(){
 		particleEvent = new ParticleEvent();
 		forwardEvent = new ForwardEvent();
+		centralEvent = new CentralEvent();
 	}
 	
 	/**
 	 * @param particleEvent ParticleEvent containing particles
 	 * @param forwardEvent ForwardEvent containing forward reconstructed clusters
+	 * @param centralEvent CentralEvent containing central reconstructed clusters
 	 */
-	public Event(ParticleEvent particleEvent, ForwardEvent forwardEvent) {
+	public Event(ParticleEvent particleEvent, ForwardEvent forwardEvent, CentralEvent centralEvent) {
 		super();
 		this.particleEvent = particleEvent;
 		this.forwardEvent = forwardEvent;
+		this.centralEvent = centralEvent;
 	}
 	
 
@@ -164,9 +173,14 @@ public class Event {
 	 */
 	public void readBanks(DataEvent event){
 		this.readEventParametersBanks(event);
+		
 		this.particleEvent.readParticleBanks(event);
+		
 		this.forwardEvent.readForwardBanks(event);
 		this.forwardEvent.linkBanks(particleEvent);
+		
+		this.centralEvent.readCentralBanks(event);
+		this.centralEvent.linkBanks(particleEvent);
 	}
 	
 	

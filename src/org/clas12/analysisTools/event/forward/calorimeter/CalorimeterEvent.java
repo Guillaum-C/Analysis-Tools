@@ -27,8 +27,9 @@ public class CalorimeterEvent {
 		calorimeterClusters = new ArrayList<>();
 	}                                                                                             
 
-	/**                                                                                                                                                                                                                               
-	 * @param calorimeterClusters
+	/**
+	 * Create new calorimeter event                                                                                                                                                                                                                             
+	 * @param calorimeterClusters list of calorimeter clusters
 	 */
 	public CalorimeterEvent(ArrayList<CalorimeterRecCluster> calorimeterClusters) {
 		super();
@@ -83,7 +84,7 @@ public class CalorimeterEvent {
 	/**
 	 * Associate reconstructed calorimeter clusters with a particle
 	 * 
-	 * @param particleEvent
+	 * @param particleEvent particle event containing particles to associate with calorimeter clusters
 	 */
 	public void linkBanks(ParticleEvent particleEvent){
 		for (CalorimeterRecCluster clusterRecCalo : this.getCalorimeterClusters()){
