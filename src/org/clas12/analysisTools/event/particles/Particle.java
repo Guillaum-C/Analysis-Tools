@@ -284,8 +284,14 @@ public class Particle {
 	 * Compute phi thanks to the momentum
 	 */
 	public void computePhiTheta() {
-		this.phi = this.fourMomentum.phi();
-		this.theta = this.fourMomentum.theta();
+		if (this.getMass()!=-1){
+			this.phi = this.fourMomentum.phi();
+			this.theta = this.fourMomentum.theta();
+		}else{
+			this.phi = this.momentum.phi();
+			this.theta = this.momentum.theta();
+		}
+		
 	}
 
 	/**
@@ -482,7 +488,6 @@ public class Particle {
 		}
 	}
 
-	
 	/**
 	 * @return the cvtRecTrack
 	 */
