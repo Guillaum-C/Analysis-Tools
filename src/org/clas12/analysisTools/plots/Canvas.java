@@ -10,9 +10,11 @@ import javax.swing.JPanel;
 import org.jlab.groot.data.GraphErrors;
 import org.jlab.groot.data.H1F;
 import org.jlab.groot.data.H2F;
+import org.jlab.groot.data.TDirectory;
 import org.jlab.groot.graphics.EmbeddedCanvas;
 import org.jlab.groot.graphics.EmbeddedCanvasTabbed;
 import org.jlab.groot.graphics.EmbeddedPad;
+import org.jlab.groot.ui.TBrowser;
 
 public class Canvas extends EmbeddedCanvasTabbed {
 	
@@ -573,6 +575,145 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 */
 	public void setLogZ(String tabName, int row, int column, boolean logZ){
 		this.getPad(tabName, row, column).getAxisY().setLog(logZ);
+	}
+	
+	/**
+	 * Save a plot in a hipo file
+	 * @param plotName name of the plot to save
+	 * @param fileToWrite name of the file to write (use the following format: /path/file.hipo)
+	 */
+	public void save(String plotName, String fileToWrite){
+		System.out.println(" ================== WRITE ====================");
+		TDirectory dirSave = new TDirectory();
+		H1F h1 = this.get1DHisto(plotName);
+		dirSave.mkdir("/toAvoidBug/"+plotName);
+		dirSave.cd("/toAvoidBug/"+plotName);
+        dirSave.addDataSet(h1);
+		
+        dirSave.mkdir("/plots/"+plotName);
+        dirSave.cd("/plots/"+plotName);
+        dirSave.addDataSet(h1);
+        
+        dirSave.cd();
+        
+        dirSave.tree();
+        
+        dirSave.writeFile(fileToWrite);
+        System.out.println(" ================== WRITE DONE ====================");
+	}
+	
+	/**
+	 * Save all plots into a hipo file
+	 * @param fileToWrite name of the file to write (use the following format: /path/file.hipo)
+	 */
+	public void saveAll(String fileToWrite){
+		System.out.println(" ================== WRITE ALL ====================");
+		TDirectory dirSave = new TDirectory();
+		
+		//TODO remove these 3 lines when bug is solved
+		H1F h1 = new H1F();
+		dirSave.mkdir("/toAvoidBug/");
+		dirSave.cd("/toAvoidBug/");
+		dirSave.addDataSet(h1);
+		
+		for (H1F histo1D:list1DHisto){
+			dirSave.mkdir("/H1F/"+histo1D.getName());
+			dirSave.cd("/H1F/"+histo1D.getName());
+			dirSave.addDataSet(histo1D);
+		}
+		for (H2F histo2D:list2DHisto){
+			dirSave.mkdir("/H2F/"+histo2D.getName());
+			dirSave.cd("/H2F/"+histo2D.getName());
+			dirSave.addDataSet(histo2D);
+		}
+		for (GraphErrors graph:listGraph){
+			dirSave.mkdir("/GRAPH/"+graph.getName());
+			dirSave.cd("/GRAPH/"+graph.getName());
+			dirSave.addDataSet(graph);
+		}
+		
+		dirSave.cd();
+        dirSave.tree();
+        
+        dirSave.writeFile(fileToWrite);
+        System.out.println(" ================== WRITE ALL DONE ====================");
+	}
+	
+	/**
+	 * Read all plots contained in a hipo file
+	 * @param fileToRead hipo file to read (use the following format: /path/file.hipo)
+	 */
+	public void readAll(String fileToRead){
+		System.out.println(" ================== READ ALL ====================");
+		TDirectory dirRead = new TDirectory();
+		
+		dirRead.readFile(fileToRead);
+		
+		dirRead.cd();
+        dirRead.tree();
+        
+        TBrowser browser = new TBrowser(dirRead);
+        System.out.println(" ================== READ ALL DONE ====================");
+	}
+	
+	/**
+	 * Read and plot an histo from a hipo file
+	 * @param histoName name of the histo to look for
+	 * @param fileToRead hipo file to read (use the following format: /path/file.hipo)
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 */
+	public void readAndPlot1D(String histoName, String fileToRead, String tabName, int row, int column){
+		System.out.println(" ================== READ ====================");
+		TDirectory dirRead = new TDirectory();
+		
+		dirRead.readFile(fileToRead);
+		H1F readHisto = (H1F) dirRead.getObject("/H1F/"+histoName);
+		
+		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		this.getCanvas(tabName).draw(readHisto, "same");
+		System.out.println(" ================== READ DONE ====================");
+	}
+	
+	/**
+	 * Read and plot an histo from a hipo file
+	 * @param histoName name of the histo to look for
+	 * @param fileToRead hipo file to read (use the following format: /path/file.hipo)
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 */
+	public void readAndPlot2D(String histoName, String fileToRead, String tabName, int row, int column){
+		System.out.println(" ================== READ ====================");
+		TDirectory dirRead = new TDirectory();
+		
+		dirRead.readFile(fileToRead);
+		H2F readHisto = (H2F) dirRead.getObject("/H2F/"+histoName);
+		
+		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		this.getCanvas(tabName).draw(readHisto, "same");
+		System.out.println(" ================== READ DONE ====================");
+	}
+	
+	/**
+	 * Read and plot an histo from a hipo file
+	 * @param graphName name of the graph to look for
+	 * @param fileToRead hipo file to read (use the following format: /path/file.hipo)
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 */
+	public void readAndPlotGraph(String graphName, String fileToRead, String tabName, int row, int column){
+		System.out.println(" ================== READ ====================");
+		TDirectory dirRead = new TDirectory();
+		
+		dirRead.readFile(fileToRead);
+		GraphErrors readHisto = (GraphErrors) dirRead.getObject("/GRAPH/"+graphName);
+		
+		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		this.getCanvas(tabName).draw(readHisto, "same");
+		System.out.println(" ================== READ DONE ====================");
 	}
 	
 }
