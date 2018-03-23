@@ -1,6 +1,7 @@
 package org.clas12.analysisTools.plots;
 
 import java.awt.GridLayout;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -9,7 +10,9 @@ import javax.swing.JPanel;
 import org.jlab.groot.data.GraphErrors;
 import org.jlab.groot.data.H1F;
 import org.jlab.groot.data.H2F;
+import org.jlab.groot.graphics.EmbeddedCanvas;
 import org.jlab.groot.graphics.EmbeddedCanvasTabbed;
+import org.jlab.groot.graphics.EmbeddedPad;
 
 public class Canvas extends EmbeddedCanvasTabbed {
 	
@@ -82,15 +85,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	/**
 	 * @return the list1DHisto
 	 */
-	public ArrayList<H1F> getList1DHisto() {
+	private ArrayList<H1F> getList1DHisto() {
 		return list1DHisto;
-	}
-	
-	/**
-	 * @param list1dHisto the list1DHisto to set
-	 */
-	public void setList1DHisto(ArrayList<H1F> list1dHisto) {
-		list1DHisto = list1dHisto;
 	}
 	
 	/**
@@ -102,7 +98,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	public H1F get1DHisto(String histoName){
 		H1F histoFound = null;
 		boolean plotExist=false;
-		for (H1F histoIterator : list1DHisto){
+		for (H1F histoIterator : this.getList1DHisto()){
 			if (histoIterator.getName().equals(histoName)){
 				plotExist=true;
 				histoFound=histoIterator;
@@ -122,13 +118,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @throws IllegalArgumentException if an histogram with the same name already exists
 	 */
 	public void add1DHisto(H1F histo){
-		boolean plotExist=false;
-		for (H1F histoIterator : list1DHisto){
-			if (histoIterator.getName().equals(histo.getName())){
-				plotExist=true;
-			}
-		}
-		if (plotExist){
+		if (this.has1DHisto(histo.getName())){
 			System.out.println("Canvas error: Cannot create new histogram: "+histo.getName()+", an histogram with this name already exist.");
 			throw new IllegalArgumentException("Histogram with that name already exists");
 		}else{
@@ -137,17 +127,25 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 	
 	/**
-	 * @return the list2DHisto
+	 * Check if histo with given name exists
+	 * @param histoName name of a graph to look for
+	 * @return 1 if graph exists, 0 else
 	 */
-	public ArrayList<H2F> getList2DHisto() {
-		return list2DHisto;
+	private boolean has1DHisto(String histoName){
+		boolean histoFound=false;
+		for (H1F histoIterator : this.getList1DHisto()){
+			if (histoIterator.getName().equals(histoName)){
+				histoFound=true;
+			}
+		}
+		return histoFound;
 	}
 	
 	/**
-	 * @param list2dHisto the list2DHisto to set
+	 * @return the list2DHisto
 	 */
-	public void setList2DHisto(ArrayList<H2F> list2dHisto) {
-		list2DHisto = list2dHisto;
+	private ArrayList<H2F> getList2DHisto() {
+		return list2DHisto;
 	}
 	
 	/**
@@ -159,7 +157,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	public H2F get2DHisto(String histoName){
 		H2F histoFound = null;
 		boolean plotExist=false;
-		for (H2F histoIterator : list2DHisto){
+		for (H2F histoIterator : this.getList2DHisto()){
 			if (histoIterator.getName().equals(histoName)){
 				plotExist=true;
 				histoFound=histoIterator;
@@ -179,13 +177,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @throws IllegalArgumentException if an histogram with the same name already exists
 	 */
 	public void add2DHisto(H2F histo){
-		boolean plotExist=false;
-		for (H2F histoIterator : list2DHisto){
-			if (histoIterator.getName().equals(histo.getName())){
-				plotExist=true;
-			}
-		}
-		if (plotExist){
+		if (this.has2DHisto(histo.getName())){
 			System.out.println("Canvas error: Cannot create new histogram: "+histo.getName()+", an histogram with this name already exist.");
 			throw new IllegalArgumentException("Histogram with that name already exists");
 		}else{
@@ -194,17 +186,25 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 	
 	/**
-	 * @return the listGraph
+	 * Check if histo with given name exists
+	 * @param histoName name of a graph to look for
+	 * @return 1 if graph exists, 0 else
 	 */
-	public ArrayList<GraphErrors> getListGraph() {
-		return listGraph;
+	private boolean has2DHisto(String histoName){
+		boolean histoFound=false;
+		for (H2F histoIterator : this.getList2DHisto()){
+			if (histoIterator.getName().equals(histoName)){
+				histoFound=true;
+			}
+		}
+		return histoFound;
 	}
 	
 	/**
-	 * @param listGraph the listGraph to set
+	 * @return the listGraph
 	 */
-	public void setListGraph(ArrayList<GraphErrors> listGraph) {
-		this.listGraph = listGraph;
+	private ArrayList<GraphErrors> getListGraph() {
+		return listGraph;
 	}
 	
 	/**
@@ -223,7 +223,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 			}
 		}
 		if (!plotExist){
-			System.out.println("Plots error: Cannot fill graph "+graphName+", no graph with this name exist.");
+			System.out.println("Plots error: Cannot access graph "+graphName+", no graph with this name exist.");
 			throw new IllegalArgumentException("Graph with that name doesn't exists");
 		}
 		return graphFound;
@@ -236,18 +236,76 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @throws IllegalArgumentException if a graph with the same name already exists
 	 */
 	public void addGraph(GraphErrors graph){
-		boolean graphFound=false;
-		for (GraphErrors graphIterator : listGraph){
-			if (graphIterator.getName().equals(graph.getName())){
-				graphFound=true;
-			}
-		}
-		if (graphFound){
-			System.out.println("Canvas error: Cannot create new graph: "+graph.getName()+", graph with this name already exist.");
+		if (this.hasGraph(graph.getName())){
+			System.out.println("Canvas error: Cannot add new graph: "+graph.getName()+", graph with this name already exist.");
 			throw new IllegalArgumentException("Graph with that name already exists");
 		}else{
 			this.getListGraph().add(graph);
 		}
+	}
+	
+	/**
+	 * Check if graph with given name exists
+	 * @param graphName name of a graph to look for
+	 * @return 1 if graph exists, 0 else
+	 */
+	private boolean hasGraph(String graphName){
+		boolean graphFound=false;
+		for (GraphErrors graphIterator : listGraph){
+			if (graphIterator.getName().equals(graphName)){
+				graphFound=true;
+			}
+		}
+		return graphFound;
+	}
+
+	/**
+	 * Get a specific pad (in position (row, column))
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @return the required pad
+	 */
+	private EmbeddedPad getPad(String tabName, int row, int column){
+		if ( (row < 0) || (row > this.getCanvas(tabName).getNRows()) ){
+			throw new InvalidParameterException("Cannot access row: "+row+". Row value must be between 1 and "+this.getCanvas(tabName).getNRows()+".");
+		}else if  ( (column < 0) || (column > this.getCanvas(tabName).getNColumns()) ){
+			throw new InvalidParameterException("Cannot access column: "+column+". Column value must be between 1 and "+this.getCanvas(tabName).getNColumns()+".");
+		}else{
+			return this.getCanvas(tabName).getPad( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		}
+	}
+	
+	/**
+	 * Go to a specific pad (in position (row, column))
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 */
+	private void cdPad(String tabName, int row, int column){
+		System.out.println("Nb Column: "+this.getCanvas(tabName).getNColumns());
+		if ( (row < 0) || (row > this.getCanvas(tabName).getNRows()) ){
+			throw new InvalidParameterException("Cannot access row: "+row+". Row value must be between 1 and "+this.getCanvas(tabName).getNRows()+".");
+		}else if  ( (column < 0) || (column > this.getCanvas(tabName).getNColumns()) ){
+			throw new InvalidParameterException("Cannot access column: "+column+". Column value must be between 1 and "+this.getCanvas(tabName).getNColumns()+".");
+		}else{
+			this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		}
+	}
+	
+	/**
+	 * Get a specific canvas
+	 * @param tabName
+	 */
+	public EmbeddedCanvas getCanvas(String tabName){
+		EmbeddedCanvas canvas;
+		try {
+			canvas = super.getCanvas(tabName);
+		} catch (NullPointerException e) {
+			throw new InvalidParameterException("Cannot access tab: "+tabName+". Required tab doesn't exist");
+		}
+		return canvas;
+		
 	}
 	
 	
@@ -258,12 +316,12 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * Add a tab to the frame
 	 * 
 	 * @param tabName name of the new tab
-	 * @param numberOfColumns number of columns of the new tab
-	 * @param numberOfRows number of rows of the new tab
+	 * @param numberOfRows number of columns of the new tab
+	 * @param numberOfColumns number of rows of the new tab
 	 */
-	public void addTab(String tabName, int numberOfColumns, int numberOfRows){
+	public void addTab(String tabName, int numberOfRows, int numberOfColumns){
 		this.addCanvas(tabName);
-		this.getCanvas(tabName).divide(numberOfRows,  numberOfColumns);
+		this.getCanvas(tabName).divide(numberOfColumns, numberOfRows);
 		this.getCanvas(tabName).setGridX(true);
 		this.getCanvas(tabName).setGridY(true);
 		
@@ -279,29 +337,26 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 	
 	/**
-	 * Create a new 2D histogram
+	 * Create a new 1D histogram plot
 	 * @param tabName name of the tab
-	 * @param rowrow of the tab
+	 * @param row row of the tab
 	 * @param column column of the tab
 	 * @param histoName histogram name (not displayed)
 	 * @param title histogram title
 	 * @param titleX histogram X-axis title
-	 * @param binXnumber of bins along X-axis
+	 * @param binX number of bins along X-axis
 	 * @param minX minimum value for X-axis
 	 * @param maxX maximum value for X-axis
 	 * @param logY true to have logarithmic Y-axis, false else
 	 */
-	public void create1DHisto(String tabName, int row, int column, String histoName, String title, String titleX, int binX, double minX, double maxX, boolean logY){
+	public void create1DHisto(String tabName, int row, int column, String histoName, String title, String titleX, int binX, double minX, double maxX){
 		H1F newHisto = new H1F(histoName, binX, minX, maxX);
 		newHisto.setTitle(title);
 		newHisto.setTitleX(titleX);
 		this.add1DHisto(newHisto);
 		
-		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		this.cdPad(tabName, row, column);
 		this.getCanvas(tabName).draw(newHisto, "same");
-		if (logY){
-			this.getCanvas(tabName).getPad().getAxisY().setLog(true);
-		}
 	}
 	
 	/**
@@ -315,7 +370,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 
 	/**
-	 * Create a new 2D histogram
+	 * Create a new 2D histogram plot
 	 * @param tabName name of the tab
 	 * @param row row of the tab
 	 * @param column column of the tab
@@ -331,20 +386,17 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param maxY maximum value for Y-axis
 	 * @param logZ true to have logarithmic Z-axis, false else
 	 */
-	public void create2DHisto(String tabName, int row, int column, String histoName, String title, String titleX, String titleY, int binX, double minX, double maxX, int binY, double minY, double maxY, boolean logZ){
+	public void create2DHisto(String tabName, int row, int column, String histoName, String title, String titleX, String titleY, int binX, double minX, double maxX, int binY, double minY, double maxY){
 		H2F newHisto = new H2F(histoName, binX, minX, maxX, binY, minY, maxY);
 		newHisto.setTitle(title);
 		newHisto.setTitleX(titleX);
 		newHisto.setTitleY(titleY);
 		this.add2DHisto(newHisto);
 		
-		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+		this.cdPad(tabName, row, column);
 		this.getCanvas(tabName).draw(newHisto, "same");
-		if (logZ){
-			this.getCanvas(tabName).getPad().getAxisZ().setLog(true);
-		}		
 	}
-	
+		
 	/**
 	 * Fill histogram with the given values
 	 * @param histoName name of the histogram to fill
@@ -357,7 +409,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}	
 	
 	/**
-	 * Create a new graph
+	 * Create and plot a new graph
 	 * @param tabName name of the tab
 	 * @param row row of the tab
 	 * @param column column of the tab
@@ -371,7 +423,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 	
 	/**
-	 * Create a new graph
+	 * Create and plot a new graph 
 	 * @param tabName name of the tab
 	 * @param row row of the tab
 	 * @param column column of the tab
@@ -387,7 +439,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 	
 	/**
-	 * Create a new graph
+	 * Create and plot a new graph
 	 * @param tabName name of the tab
 	 * @param row row of the tab
 	 * @param column column of the tab
@@ -407,6 +459,19 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		newHisto.setTitleY(titleY);
 		this.addGraph(newHisto);
 		
+		this.cdPad(tabName, row, column);
+		this.getCanvas(tabName).draw(newHisto, "same");	
+	}
+	
+	/**
+	 * Create a new plot with existing graph
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param graphName name of the graph to plot (not displayed)
+	 */
+	public void createGraph(String tabName, int row, int column, String graphName){
+		GraphErrors newHisto = this.getGraph(graphName);
 		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
 		this.getCanvas(tabName).draw(newHisto, "same");	
 	}
@@ -433,4 +498,81 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		this.getGraph(graphName).addPoint(valueX, valueY, errorX, errorY);	
 	}	
 
+	/**
+	 * Change title of a pad
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param newTitle new title to use
+	 */
+	public void setPadTitle(String tabName, int row, int column, String newTitle){
+		this.getPad(tabName, row, column).setTitle(newTitle);
+	}
+	
+	/**
+	 * Add a stat box for a given pad
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param statBoxValue elements to display in the stat box (binary mask representing Integral/ Overflow/ Underflow/ RMS/ Mean/ Entries/ Name). For instance : 1110 will display RMS/ Mean/ Entries and 1001111 will display Integral/ RMS/ Mean/ Entries/ Title)
+	 */
+	public void addStatBox(String tabName, int row, int column, int statBoxValue){
+		this.getPad(tabName, row, column).setOptStat(statBoxValue);
+	}
+	
+	/**
+	 * Add a stat box for a given pad
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param title 1 to display title, 0 else
+	 * @param entries 1 to display entries, 0 else
+	 * @param mean 1 to display mean, 0 else
+	 * @param rms 1 to display rms, 0 else
+	 * @param underflow 1 to display underflow, 0 else
+	 * @param overflow 1 to display overflow, 0 else
+	 * @param integral 1 to display integral, 0 else
+	 */
+	public void addStatBox(String tabName, int row, int column, int title, int entries, int mean, int rms, int underflow, int overflow, int integral){
+		if ( (title!=0&&title!=1)||(entries!=0&&entries!=1)||(mean!=0&&mean!=1)||(rms!=0&&rms!=1)||(underflow!=0&&underflow!=1)||(overflow!=0&&overflow!=1)||(integral!=0&&integral!=1)){
+			 throw new InvalidParameterException("Parameters have to be 0 or 1");
+		}else{
+			int statBoxValue = title + 10 * entries + 100 * mean + 1000 * rms + 10000 * underflow + 100000 * overflow + 1000000 * integral;
+			this.getPad(tabName, row, column).setOptStat(statBoxValue);
+		}
+	}
+	
+	/**
+	 * Set X-axis to log
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param logX true to set X-axis to log, false else
+	 */
+	public void setLogX(String tabName, int row, int column, boolean logX){
+		this.getPad(tabName, row, column).getAxisY().setLog(logX);
+	}
+	
+	/**
+	 * Set Y-axis to log
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param logY true to set Y-axis to log, false else
+	 */
+	public void setLogY(String tabName, int row, int column, boolean logY){
+		this.getPad(tabName, row, column).getAxisY().setLog(logY);
+	}
+	
+	/**
+	 * Set Z-axis to log
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param column column of the tab
+	 * @param logZ true to set Z-axis to log, false else
+	 */
+	public void setLogZ(String tabName, int row, int column, boolean logZ){
+		this.getPad(tabName, row, column).getAxisY().setLog(logZ);
+	}
+	
 }
