@@ -62,7 +62,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	public Canvas(String title){
 		super(true);
 		frame = new JFrame(title);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 1));
@@ -285,7 +285,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param column column of the tab
 	 */
 	private void cdPad(String tabName, int row, int column){
-		System.out.println("Nb Column: "+this.getCanvas(tabName).getNColumns());
 		if ( (row < 0) || (row > this.getCanvas(tabName).getNRows()) ){
 			throw new InvalidParameterException("Cannot access row: "+row+". Row value must be between 1 and "+this.getCanvas(tabName).getNRows()+".");
 		}else if  ( (column < 0) || (column > this.getCanvas(tabName).getNColumns()) ){
@@ -362,6 +361,32 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 	
 	/**
+	 * Create a row of 1D histogram plots (create numberOfSectors+1 histograms since the first column is supposed to be the sum of all sectors)
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param numberOfColumns number of sectors
+	 * @param histoName histogram name (not displayed)
+	 * @param title histogram title
+	 * @param titleX histogram X-axis title
+	 * @param binX number of bins along X-axis
+	 * @param minX minimum value for X-axis
+	 * @param maxX maximum value for X-axis
+	 * @param logY true to have logarithmic Y-axis, false else
+	 */
+	public void create1DHistoBySector(String tabName, int row, int numberOfColumns, String histoName, String title, String titleX, int binX, double minX, double maxX){
+		for (int sector=0; sector<numberOfColumns; sector++){
+			H1F newHisto = new H1F(histoName+" S"+sector, binX, minX, maxX);
+			newHisto.setTitle(title+" S"+sector);
+			newHisto.setTitleX(titleX);
+			this.add1DHisto(newHisto);
+			
+			this.cdPad(tabName, row, sector+1);
+			this.getCanvas(tabName).draw(newHisto, "same");
+		}
+		
+	}
+	
+	/**
 	 * Fill histogram with the given values
 	 * @param histoName name of the histogram to fill
 	 * @param valueX value along X-axis
@@ -369,6 +394,15 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 */
 	public void fill1DHisto(String histoName, double valueX, double weight){
 		this.get1DHisto(histoName).fill(valueX, weight);
+	}
+
+	/**
+	 * Fill histogram with the given values (will use weight = 1)
+	 * @param histoName name of the histogram to fill
+	 * @param valueX value along X-axis
+	 */
+	public void fill1DHisto(String histoName, double valueX){
+		this.fill1DHisto(histoName,valueX, 1);
 	}
 
 	/**
@@ -399,6 +433,46 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		this.getCanvas(tabName).draw(newHisto, "same");
 	}
 		
+	/**
+	 * Create a row of 2D histogram plots (create numberOfSectors+1 histograms since the first column is supposed to be the sum of all sectors)
+	 * @param tabName name of the tab
+	 * @param row row of the tab
+	 * @param numberOfColumns number of sectors
+	 * @param histoName histogram name (not displayed)
+	 * @param title histogram title
+	 * @param titleX histogram X-axis title
+	 * @param titleY histogram Y-axis title
+	 * @param binX number of bins along X-axis
+	 * @param minX minimum value for X-axis
+	 * @param maxX maximum value for X-axis
+	 * @param binY number of bins along Y-axis
+	 * @param minY minimum value for Y-axis
+	 * @param maxY maximum value for Y-axis
+	 * @param logZ true to have logarithmic Z-axis, false else
+	 */
+	public void create2DHistoBySector(String tabName, int row, int numberOfColumns, String histoName, String title, String titleX, String titleY, int binX, double minX, double maxX, int binY, double minY, double maxY){
+		for (int sector=0; sector<numberOfColumns; sector++){
+			H2F newHisto = new H2F(histoName+" S"+sector, binX, minX, maxX, binY, minY, maxY);
+			newHisto.setTitle(title+" S"+sector);
+			newHisto.setTitleX(titleX);
+			newHisto.setTitleY(titleY);
+			this.add2DHisto(newHisto);
+			
+			this.cdPad(tabName, row, sector+1);
+			this.getCanvas(tabName).draw(newHisto, "same");
+		}
+	}
+		
+	/**
+	 * Fill histogram with the given values (will use weight = 1)
+	 * @param histoName name of the histogram to fill
+	 * @param valueX value along X-axis
+	 * @param valueY value along Y-axis
+	 */
+	public void fill2DHisto(String histoName, double valueX, double valueY){
+		this.fill2DHisto(histoName,valueX, valueY, 1);
+	}	
+	
 	/**
 	 * Fill histogram with the given values
 	 * @param histoName name of the histogram to fill
