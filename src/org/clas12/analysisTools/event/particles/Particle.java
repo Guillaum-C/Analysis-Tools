@@ -154,7 +154,6 @@ public class Particle {
 	 */
 	public LorentzVector getFourMomentum(){
 		if (this.getMass()==-1){
-			
 			return new LorentzVector(momentum, -1);
 		}else{
 			return this.fourMomentum;
@@ -189,6 +188,22 @@ public class Particle {
 	}
 
 	/**
+	 * Get momentum magnitude
+	 * @return momentum (magnitude)
+	 */
+	public double getP(){
+		return this.getMomentum().mag();
+	}
+	
+	/**
+	 * Get transverse momentum (in xy plan)
+	 * @return transverse momentum
+	 */
+	public double getPt(){
+		return Math.sqrt( Math.pow(this.getMomentum().x(),2) + Math.pow(this.getMomentum().y(),2) );
+	}
+	
+	/**
 	 * Set vertex-vector
 	 * 
 	 * @param vertex  vertex-vector
@@ -216,7 +231,7 @@ public class Particle {
 	public Vector3 getVertex() {
 		return vertex;
 	}
-
+	
 	/**
 	 * Get vertex x-component
 	 * 
@@ -234,7 +249,7 @@ public class Particle {
 	public double getVy() {
 		return this.getVertex().y();
 	}
-
+	
 	/**
 	 * Get vertex z-component
 	 * 
@@ -252,7 +267,7 @@ public class Particle {
 	public double getTheta() {
 		return this.theta;
 	}
-
+	
 	/**
 	 * Get momentum theta (in clas12 conventions)
 	 * 
@@ -261,7 +276,7 @@ public class Particle {
 	public double getThetaDeg() {
 		return Math.toDegrees(this.theta);
 	}
-
+	
 	/**
 	 * Get momentum phi (in clas12 conventions)
 	 * 
@@ -270,7 +285,7 @@ public class Particle {
 	public double getPhi() {
 		return this.phi;
 	}
-
+	
 	/**
 	 * Get momentum phi (in clas12 conventions)
 	 * 
@@ -279,7 +294,7 @@ public class Particle {
 	public double getPhiDeg() {
 		return Math.toDegrees(this.phi);
 	}
-
+	
 	/**
 	 * Compute phi thanks to the momentum
 	 */
