@@ -397,12 +397,33 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 
 	/**
+	 * Fill histogram with the given values
+	 * @param histoName name of the histogram to fill
+	 * @param sector sector to fill
+	 * @param valueX value along X-axis
+	 * @param weight weight of the point
+	 */
+	public void fill1DHistoBySector(String histoName, int sector, double valueX, double weight){
+		this.fill1DHisto(histoName+" S"+sector, valueX, weight);
+	}
+
+	/**
 	 * Fill histogram with the given values (will use weight = 1)
 	 * @param histoName name of the histogram to fill
 	 * @param valueX value along X-axis
 	 */
 	public void fill1DHisto(String histoName, double valueX){
 		this.fill1DHisto(histoName,valueX, 1);
+	}
+
+	/**
+	 * Fill histogram with the given values (will use weight = 1)
+	 * @param histoName name of the histogram to fill
+	 * @param sector sector to fill
+	 * @param valueX value along X-axis
+	 */
+	public void fill1DHistoBySector(String histoName, int sector, double valueX){
+		this.fill1DHisto(histoName+" S"+sector,valueX, 1);
 	}
 
 	/**
@@ -464,16 +485,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	}
 		
 	/**
-	 * Fill histogram with the given values (will use weight = 1)
-	 * @param histoName name of the histogram to fill
-	 * @param valueX value along X-axis
-	 * @param valueY value along Y-axis
-	 */
-	public void fill2DHisto(String histoName, double valueX, double valueY){
-		this.fill2DHisto(histoName,valueX, valueY, 1);
-	}	
-	
-	/**
 	 * Fill histogram with the given values
 	 * @param histoName name of the histogram to fill
 	 * @param valueX value along X-axis
@@ -482,6 +493,39 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 */
 	public void fill2DHisto(String histoName, double valueX, double valueY, double weight){
 		this.get2DHisto(histoName).fill(valueX, valueY, weight);	
+	}	
+	
+	/**
+	 * Fill histogram with the given values
+	 * @param histoName name of the histogram to fill
+	 * @param sector sector to fill
+	 * @param valueX value along X-axis
+	 * @param valueY value along Y-axis
+	 * @param weight weight of the point
+	 */
+	public void fill2DHistoBySector(String histoName, int sector, double valueX, double valueY, double weight){
+		this.fill2DHisto(histoName+" S"+sector,valueX, valueY, weight);
+	}	
+
+	/**
+	 * Fill histogram with the given values (will use weight = 1)
+	 * @param histoName name of the histogram to fill
+	 * @param valueX value along X-axis
+	 * @param valueY value along Y-axis
+	 */
+	public void fill2DHisto(String histoName, double valueX, double valueY){
+		this.fill2DHisto(histoName,valueX, valueY, 1);
+	}
+	
+	/**
+	 * Fill histogram with the given values (will use weight = 1)
+	 * @param histoName name of the histogram to fill
+	 * @param sector sector to fill
+	 * @param valueX value along X-axis
+	 * @param valueY value along Y-axis
+	 */
+	public void fill2DHistoBySector(String histoName, int sector, double valueX, double valueY){
+		this.fill2DHisto(histoName+" S"+sector,valueX, valueY, 1);
 	}	
 	
 	/**
