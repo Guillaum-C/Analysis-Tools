@@ -9,7 +9,7 @@ public class HTCCRecCluster extends RecCluster {
 	/**
 	 * Number of photo-electrons
 	 */
-	int nphe;
+	double nphe;
 
 	
 	
@@ -25,14 +25,14 @@ public class HTCCRecCluster extends RecCluster {
 	/**
 	 * @return the number of photo-electrons
 	 */
-	public int getNphe() {
+	public double getNphe() {
 		return nphe;
 	}
 
 	/**
 	 * @param nphe the number of photo-electrons to set
 	 */
-	public void setNphe(int nphe) {
+	public void setNphe(double nphe) {
 		this.nphe = nphe;
 	}
 	
@@ -49,7 +49,7 @@ public class HTCCRecCluster extends RecCluster {
 		int detector = bankRec.getByte("detector", bankRow);
 		int sector = bankRec.getByte("sector", bankRow);
 		
-		int numberPhotoElectron = bankRec.getShort("nphe", bankRow);
+		double numberPhotoElectron = bankRec.getFloat("nphe", bankRow);
 		
 		double time = bankRec.getFloat("time", bankRow);
 		double path = bankRec.getFloat("path", bankRow);
