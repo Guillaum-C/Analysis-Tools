@@ -80,6 +80,38 @@ public class Event {
 	public void setParticleEvent(ParticleEvent particleEvent) {
 		this.particleEvent = particleEvent;
 	}
+	
+	/**
+	 * @return the forwardEvent
+	 */
+	public ForwardEvent getForwardEvent() {
+		return forwardEvent;
+	}
+	
+
+	/**
+	 * @param forwardEvent the forwardEvent to set
+	 */
+	public void setForwardEvent(ForwardEvent forwardEvent) {
+		this.forwardEvent = forwardEvent;
+	}
+	
+
+	/**
+	 * @return the centralEvent
+	 */
+	public CentralEvent getCentralEvent() {
+		return centralEvent;
+	}
+	
+
+	/**
+	 * @param centralEvent the centralEvent to set
+	 */
+	public void setCentralEvent(CentralEvent centralEvent) {
+		this.centralEvent = centralEvent;
+	}
+	
 
 	/**
 	 * Get the value of a specific trigger bit
