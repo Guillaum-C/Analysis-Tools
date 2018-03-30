@@ -648,7 +648,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param logZ true to set Z-axis to log, false else
 	 */
 	public void setLogZ(String tabName, int row, int column, boolean logZ){
-		this.getPad(tabName, row, column).getAxisY().setLog(logZ);
+		this.getPad(tabName, row, column).getAxisZ().setLog(logZ);
 	}
 	
 	/**
