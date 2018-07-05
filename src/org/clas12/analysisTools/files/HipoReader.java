@@ -48,12 +48,6 @@ public class HipoReader {
 		this.hipoFile = new HipoDataSource();
 		this.currentFile=0;
 		this.currentEvent=0;
-		if (fileList!=null){
-			System.out.println("NOT NULL");
-		}else{
-			System.out.println("NULL");
-		}
-		System.out.println("File to open: "+fileList.get(currentFile));
 		this.hipoFile.open(fileList.get(currentFile));
 	}
 	
@@ -77,13 +71,6 @@ public class HipoReader {
 	public static List<String> getFileListFromPath(String directory, String runNumber){
 		File folder = new File(directory);
 		File[] listOfFiles = folder.listFiles();
-		if (listOfFiles!=null && listOfFiles.length!=0){
-			System.out.println(listOfFiles.length+"FILES FOUND IN DIRECTORY");
-		}else{
-			System.out.println("NO FILES FOUND");
-		}
-		
-		
 		List<String> fileList = new ArrayList<>();
 		for (int fileIterator=0 ; fileIterator<listOfFiles.length ; fileIterator++){
 			String path = listOfFiles[fileIterator].getAbsolutePath();
@@ -94,7 +81,6 @@ public class HipoReader {
 				fileList.add(path);
 			}
 		}
-		System.out.println(fileList.size()+"HIPO FILES FOUND IN DIRECTORY FOR RUN "+runNumber);
 		return fileList;
 	}
 	

@@ -37,11 +37,10 @@ public class CVTRecTrack extends RecTrack{
 		double p = bankRec.getFloat("p", bankRow);
 		double pt = bankRec.getFloat("pt", bankRow);
 		double phi0 = bankRec.getFloat("phi0", bankRow);
-		double tanDip = bankRec.getFloat("tandip", bankRow);
 		
 		double px = pt * Math.cos(phi0);
 		double py = pt * Math.sin(phi0);
-		double pz = Math.signum(tanDip)*Math.sqrt(p*p - px*px - py*py);
+		double pz = Math.sqrt(p*p - px*px - py*py);
 		
 		/*Compute vertex components*/
 		double d0 = bankRec.getFloat("d0", bankRow);

@@ -14,43 +14,44 @@ public class Event {
 	 * ParticleEvent containing all particles of the event
 	 */
 	private ParticleEvent particleEvent;
-
+	
 	/**
 	 * ForwardEvent containing forward hits/clusters/track of the event
 	 */
 	private ForwardEvent forwardEvent;
-
+	
 	/**
 	 * CentralEvent containing central hits/clusters/tracks of the event
 	 */
 	private CentralEvent centralEvent;
-
+	
 	/**
 	 * Trigger bits (1 if the trigger bit is "on"
 	 */
 	private boolean[] trigger_bits = new boolean[DaqConstants.NUMBER_OF_TRIGGER_BITS];
-
+	
 	/**
 	 * Helicity (can take values +1 or -1)
 	 */
 	private int helicity;
-
+	
+	
+	
+	
+	
 	/**
 	 * Create a new event
 	 */
-	public Event() {
+	public Event(){
 		particleEvent = new ParticleEvent();
 		forwardEvent = new ForwardEvent();
 		centralEvent = new CentralEvent();
 	}
-
+	
 	/**
-	 * @param particleEvent
-	 *            ParticleEvent containing particles
-	 * @param forwardEvent
-	 *            ForwardEvent containing forward reconstructed clusters
-	 * @param centralEvent
-	 *            CentralEvent containing central reconstructed clusters
+	 * @param particleEvent ParticleEvent containing particles
+	 * @param forwardEvent ForwardEvent containing forward reconstructed clusters
+	 * @param centralEvent CentralEvent containing central reconstructed clusters
 	 */
 	public Event(ParticleEvent particleEvent, ForwardEvent forwardEvent, CentralEvent centralEvent) {
 		super();
@@ -58,11 +59,14 @@ public class Event {
 		this.forwardEvent = forwardEvent;
 		this.centralEvent = centralEvent;
 	}
+	
+
+
 
 	/**
 	 * Get the ParticleEvent containing all particles of the event
 	 * 
-	 * @return ParticleEvent
+	 * @return  ParticleEvent
 	 */
 	public ParticleEvent getParticleEvent() {
 		return particleEvent;
@@ -71,27 +75,27 @@ public class Event {
 	/**
 	 * Set ParticleEvent
 	 * 
-	 * @param particleEvent
-	 *            particleEvent
+	 * @param particleEvent  particleEvent 
 	 */
 	public void setParticleEvent(ParticleEvent particleEvent) {
 		this.particleEvent = particleEvent;
 	}
-
+	
 	/**
 	 * @return the forwardEvent
 	 */
 	public ForwardEvent getForwardEvent() {
 		return forwardEvent;
 	}
+	
 
 	/**
-	 * @param forwardEvent
-	 *            the forwardEvent to set
+	 * @param forwardEvent the forwardEvent to set
 	 */
 	public void setForwardEvent(ForwardEvent forwardEvent) {
 		this.forwardEvent = forwardEvent;
 	}
+	
 
 	/**
 	 * @return the centralEvent
@@ -99,31 +103,30 @@ public class Event {
 	public CentralEvent getCentralEvent() {
 		return centralEvent;
 	}
+	
 
 	/**
-	 * @param centralEvent
-	 *            the centralEvent to set
+	 * @param centralEvent the centralEvent to set
 	 */
 	public void setCentralEvent(CentralEvent centralEvent) {
 		this.centralEvent = centralEvent;
 	}
+	
 
 	/**
 	 * Get the value of a specific trigger bit
 	 * 
-	 * @param triggerBit
-	 *            index of the trigger bit
+	 * @param triggerBit  index of the trigger bit
 	 * @return value of the trigger bit (true if "ON" false if "OFF")
 	 */
-	public boolean getTrigger_bit(int triggerBit) {
-		if (triggerBit >= 0 && triggerBit < DaqConstants.NUMBER_OF_TRIGGER_BITS) {
+	public boolean getTrigger_bit(int triggerBit){
+		if (triggerBit >= 0 && triggerBit < DaqConstants.NUMBER_OF_TRIGGER_BITS){
 			return trigger_bits[triggerBit];
-		} else {
-			throw new IllegalArgumentException(
-					"Trigger bit has to be between 0 and " + (DaqConstants.NUMBER_OF_TRIGGER_BITS - 1));
+		}else{
+			throw new IllegalArgumentException("Trigger bit has to be between 0 and "+(DaqConstants.NUMBER_OF_TRIGGER_BITS-1));
 		}
 	}
-
+	
 	/**
 	 * Get the trigger bits table
 	 * 
@@ -136,13 +139,12 @@ public class Event {
 	/**
 	 * Set the trigger bits table
 	 * 
-	 * @param trigger_bits
-	 *            trigger bit table
+	 * @param trigger_bits trigger bit table
 	 */
 	public void setTrigger_bits(boolean[] trigger_bits) {
 		this.trigger_bits = trigger_bits;
 	}
-
+	
 	/**
 	 * Get helicity
 	 * 
@@ -155,86 +157,63 @@ public class Event {
 	/**
 	 * Set helicity
 	 * 
-	 * @param helicity
-	 *            Helicity (can take only values +1 or -1)
+	 * @param helicity  Helicity (can take only values +1 or -1)
 	 */
 	public void setHelicity(int helicity) {
-		if (helicity == -1 || helicity == 1) {
+		if ( helicity==-1 || helicity==1 ){
 			this.helicity = helicity;
-		} else {
+		}else{
 			throw new IllegalArgumentException("Helicity can only take values 1 and -1");
 		}
 	}
-
+	
+	
+	
+	
+	
 	/**
 	 * Read general event parameters (helicity, trigger bits, ...)
 	 * 
-	 * @param event event to analyze
+	 * @param event  event to analyze
 	 */
-	public void readEventParametersBanks(DataEvent event) {
-
+	public void readEventParametersBanks(DataEvent event){
+		
 		if (event.hasBank("RUN::config")) {
 			DataBank bank = event.getBank("RUN::config");
 			long TriggerWord = bank.getLong("trigger", 0);
-			for (int i = DaqConstants.NUMBER_OF_TRIGGER_BITS - 1; i >= 0; i--) {
+			for (int i = DaqConstants.NUMBER_OF_TRIGGER_BITS-1; i >= 0; i--) {
 				trigger_bits[i] = (TriggerWord & (1 << i)) != 0;
 			}
 			this.setTrigger_bits(trigger_bits);
 		}
-
+		
 		if (event.hasBank("HEL::adc") == true) {
 			DataBank bankParticle = event.getBank("HEL::adc");
 			int pedestal = bankParticle.getShort("ped", 0);
-			if (pedestal > BeamConstants.HELICITY_ADC_THRESHOLD) {
+			if (pedestal>BeamConstants.HELICITY_ADC_THRESHOLD){
 				this.setHelicity(1);
-			} else {
+			}else{
 				this.setHelicity(-1);
 			}
-		}
+		}		
 	}
-
+	
 	/**
 	 * Read all banks (event parameters, particles, detectors ...)
 	 * 
-	 * @param event event to analyze
+	 * @param event  event to analyze
 	 */
-	public void readBanks(DataEvent event) {
+	public void readBanks(DataEvent event){
 		this.readEventParametersBanks(event);
-
+		
 		this.particleEvent.readParticleBanks(event);
-
+		
 		this.forwardEvent.readForwardBanks(event);
 		this.forwardEvent.linkBanks(particleEvent);
-
+		
 		this.centralEvent.readCentralBanks(event);
 		this.centralEvent.linkBanks(particleEvent);
 	}
-
-	/**
-	 * Read all banks (event parameters, particles, detectors ...) and return
-	 * true if event has at least an electron, a proton and a photon, else
-	 * return false.
-	 * 
-	 * @param event event to analyze
-	 * @return true if this event has at least an electron, a proton and a photon
-	 */
-	public boolean readBanks_epgEvents(DataEvent event) {
-
-		this.particleEvent.readParticleBanks(event);
-
-		if (this.getParticleEvent().hasNumberOfElectrons() > 0 && this.getParticleEvent().hasNumberOfProtons() > 0
-				&& this.getParticleEvent().hasNumberOfPhotons() > 0) {
-			this.readEventParametersBanks(event);
-
-			this.forwardEvent.readForwardBanks(event);
-			this.forwardEvent.linkBanks(particleEvent);
-
-			this.centralEvent.readCentralBanks(event);
-			this.centralEvent.linkBanks(particleEvent);
-			return true;
-		} else
-			return false;
-
-	}
-
+	
+	
 }
