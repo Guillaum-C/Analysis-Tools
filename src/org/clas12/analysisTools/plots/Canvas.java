@@ -60,17 +60,17 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param title title of the window
 	 */
 	public Canvas(String title){
-		super(true);
-		frame = new JFrame(title);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		super(true);
+//		frame = new JFrame(title);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 1));
-		panel.add(this);
-		frame.add(panel);
+//		panel = new JPanel();
+//		panel.setLayout(new GridLayout(1, 1));
+//		panel.add(this);
+//		frame.add(panel);
 		
-		frame.setSize(1400, 800);
-        frame.setVisible(true);
+//		frame.setSize(1400, 800);
+//        frame.setVisible(true);
 	}
 	
 	/**
@@ -356,8 +356,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		newHisto.setTitleX(titleX);
 		this.add1DHisto(newHisto);
 		
-		this.cdPad(tabName, row, column);
-		this.getCanvas(tabName).draw(newHisto, "same");
+//		this.cdPad(tabName, row, column);
+//		this.getCanvas(tabName).draw(newHisto, "same");
 	}
 	
 	/**
@@ -380,8 +380,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 			newHisto.setTitleX(titleX);
 			this.add1DHisto(newHisto);
 			
-			this.cdPad(tabName, row, sector+1);
-			this.getCanvas(tabName).draw(newHisto, "same");
+//			this.cdPad(tabName, row, sector+1);
+//			this.getCanvas(tabName).draw(newHisto, "same");
 		}
 		
 	}
@@ -450,8 +450,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		newHisto.setTitleY(titleY);
 		this.add2DHisto(newHisto);
 		
-		this.cdPad(tabName, row, column);
-		this.getCanvas(tabName).draw(newHisto, "same");
+//		this.cdPad(tabName, row, column);
+//		this.getCanvas(tabName).draw(newHisto, "same");
 	}
 		
 	/**
@@ -479,8 +479,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 			newHisto.setTitleY(titleY);
 			this.add2DHisto(newHisto);
 			
-			this.cdPad(tabName, row, sector+1);
-			this.getCanvas(tabName).draw(newHisto, "same");
+//			this.cdPad(tabName, row, sector+1);
+//			this.getCanvas(tabName).draw(newHisto, "same");
 		}
 	}
 		
@@ -579,8 +579,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		newHisto.setTitleY(titleY);
 		this.addGraph(newHisto);
 		
-		this.cdPad(tabName, row, column);
-		this.getCanvas(tabName).draw(newHisto, "same");	
+//		this.cdPad(tabName, row, column);
+//		this.getCanvas(tabName).draw(newHisto, "same");	
 	}
 	
 	/**
@@ -592,8 +592,8 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 */
 	public void createGraph(String tabName, int row, int column, String graphName){
 		GraphErrors newHisto = this.getGraph(graphName);
-		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
-		this.getCanvas(tabName).draw(newHisto, "same");	
+//		this.getCanvas(tabName).cd( (column-1)+this.getCanvas(tabName).getNColumns() *(row-1) );
+//		this.getCanvas(tabName).draw(newHisto, "same");	
 	}
 	
 	/**

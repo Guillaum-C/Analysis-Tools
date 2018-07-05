@@ -1,0 +1,13 @@
+package org.clas12.analysisTools.plots.detectorPlots;
+
+import org.clas12.analysisTools.event.Event;
+
+public interface DetectorPlots {
+
+	public void createTabs();
+	
+	public void createHistograms();
+	
+	public void fillHistogram(Event event);
+	
+}
