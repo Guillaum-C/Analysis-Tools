@@ -7,10 +7,13 @@ import org.clas12.analysisTools.event.particles.Particle;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
 import org.clas12.analysisTools.event.particles.Proton;
 import org.clas12.analysisTools.plots.Canvas;
+import org.clas12.analysisTools.plots.WithoutCanvas;
 
 public class HTCCPlots implements DetectorPlots {
 
 	private Canvas canvas;
+	private WithoutCanvas myCanvas;
+	
 	private final String detectorName;
 	private final String detectorTab;
 	private final String detectorCorrelationTab;
@@ -26,6 +29,16 @@ public class HTCCPlots implements DetectorPlots {
 		this.detectorBySectorTab = detectorTab+"/sector";
 		this.createTabs();
 		this.createHistograms();
+	}
+	
+	public HTCCPlots(WithoutCanvas canvas, String name){
+		this.canvas = null;
+		this.myCanvas = canvas;
+		this.detectorName = name;
+		this.detectorTab = name;
+		this.detectorCorrelationTab = name+" correlation";
+		this.detectorBySectorTab = detectorTab+"/sector";
+		this.createHistogramsWithoutCanvas(canvas);
 	}
 	
 	/**
@@ -54,6 +67,19 @@ public class HTCCPlots implements DetectorPlots {
 		
 		this.getCanvas().create2DHisto(detectorCorrelationTab, 1, 1, detectorName+"TelecvsTprot", detectorName+"Telec vs Tprot", "Tprot", "Telec", 100, 180, 250, 100, 180, 250);
 //		this.getCanvas().setLogZ(detectorCorrelationTab, 1, 1, true);
+		
+	}
+	
+	public void createHistogramsWithoutCanvas(WithoutCanvas canvas) {
+		canvas.create1DHisto( detectorName+"Nphe", detectorName+"Nphe", "Nphe", 100, 0, 100);
+		canvas.create1DHisto( detectorName+"Nphe-elec", detectorName+"Nphe Elec", "Nphe", 100, 0, 100);
+		canvas.create1DHisto( detectorName+"Nphe-p", detectorName+"Nphe p", "Nphe", 100, 0, 100);
+		
+		canvas.create1DHisto( detectorName+"T", detectorName+"T", "T", 100, 0, 400);
+		canvas.create1DHisto( detectorName+"T-elec", detectorName+"T Elec", "T", 100, 0, 400);
+		canvas.create1DHisto( detectorName+"T-p", detectorName+"T p", "T", 100, 0, 400);
+		
+		canvas.create2DHisto( detectorName+"TelecvsTprot", detectorName+"Telec vs Tprot", "Tprot", "Telec", 100, 180, 250, 100, 180, 250);
 		
 	}
 
@@ -98,6 +124,51 @@ public class HTCCPlots implements DetectorPlots {
 			if (particle.hasHTCCClusters()>0){
 				this.getCanvas().fill1DHisto(detectorName+"Nphe-p", particle.getHTCCClusters().get(0).getNphe());
 				this.getCanvas().fill1DHisto(detectorName+"T-p", particle.getHTCCClusters().get(0).getTime());
+			}
+		}
+		
+	}
+
+	public void fillHistogramWithoutCanvas(Event event) {
+		HTCCEvent htccEvent = event.getForwardEvent().getHtccEvent();
+		ParticleEvent particleEvent = event.getParticleEvent();
+		
+		for (Particle particle : particleEvent.getParticles()){
+//			if (particle.hasHTCCClusters()>1){
+//				System.out.println("part nb htcc hits: "+particle.hasHTCCClusters());
+//			}
+			if (particle.hasHTCCClusters()>0){
+				this.myCanvas.fill1DHisto(detectorName+"Nphe", particle.getHTCCClusters().get(0).getNphe());
+				this.myCanvas.fill1DHisto(detectorName+"T", particle.getHTCCClusters().get(0).getTime());
+			}
+		}
+		
+		for (Electron particle : particleEvent.getElectrons()){
+//			if (particle.hasHTCCClusters()>1){
+//				System.out.println("elec nb htcc hits: "+particle.hasFTOFClusters());
+//			}
+			if (particle.hasHTCCClusters()>0){
+				this.myCanvas.fill1DHisto(detectorName+"Nphe-elec", particle.getHTCCClusters().get(0).getNphe());
+				this.myCanvas.fill1DHisto(detectorName+"T-elec", particle.getHTCCClusters().get(0).getTime());
+			}
+			
+			for (Proton particle2 : particleEvent.getProtons()){
+				if (particle.hasHTCCClusters()>0 && particle2.hasHTCCClusters()>0){
+					for (int i = 0; i<particle2.hasHTCCClusters(); i ++){
+						for (int j = 0; j<particle.hasHTCCClusters(); j ++){
+							this.myCanvas.fill2DHisto(detectorName+"TelecvsTprot", particle2.getHTCCClusters().get(i).getTime(), particle.getHTCCClusters().get(j).getTime());
+						}
+					}
+				}
+			}
+			
+			
+		}
+		
+		for (Proton particle : particleEvent.getProtons()){
+			if (particle.hasHTCCClusters()>0){
+				this.myCanvas.fill1DHisto(detectorName+"Nphe-p", particle.getHTCCClusters().get(0).getNphe());
+				this.myCanvas.fill1DHisto(detectorName+"T-p", particle.getHTCCClusters().get(0).getTime());
 			}
 		}
 		

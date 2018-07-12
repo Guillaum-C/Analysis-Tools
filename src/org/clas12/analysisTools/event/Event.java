@@ -39,12 +39,14 @@ public class Event {
 	 * Create a new event
 	 */
 	public Event() {
-		particleEvent = new ParticleEvent();
-		forwardEvent = new ForwardEvent();
-		centralEvent = new CentralEvent();
+		this.particleEvent = new ParticleEvent();
+		this.forwardEvent = new ForwardEvent();
+		this.centralEvent = new CentralEvent();
 	}
-
+	
 	/**
+	 * Create a new event
+	 * 
 	 * @param particleEvent
 	 *            ParticleEvent containing particles
 	 * @param forwardEvent
@@ -57,6 +59,17 @@ public class Event {
 		this.particleEvent = particleEvent;
 		this.forwardEvent = forwardEvent;
 		this.centralEvent = centralEvent;
+	}
+
+	/**
+	 * Create a copy of a given event
+	 * @param oldEvent event to copy
+	 */
+	public Event(Event oldEvent){
+		super();
+		this.particleEvent = new ParticleEvent(oldEvent.getParticleEvent());
+		this.forwardEvent = new ForwardEvent(oldEvent.getForwardEvent());
+		this.centralEvent = new CentralEvent(oldEvent.getCentralEvent());
 	}
 
 	/**

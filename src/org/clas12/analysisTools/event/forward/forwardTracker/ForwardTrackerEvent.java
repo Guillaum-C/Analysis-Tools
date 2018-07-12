@@ -36,6 +36,15 @@ public class ForwardTrackerEvent {
 	}
 	
 	/**
+	 * Copy constructor
+	 * @param forwardTrackerEvent create a new track event with the same tracks as the given event
+	 */
+	public ForwardTrackerEvent(ForwardTrackerEvent forwardTrackerEvent){
+		this.forwardTracks = new ArrayList<>();
+		this.forwardTracks.addAll(forwardTrackerEvent.getForwardTracks());
+	}
+	
+	/**
 	 * @return the forward tracks
 	 */
 	public ArrayList<ForwardRecTrack> getForwardTracks() {

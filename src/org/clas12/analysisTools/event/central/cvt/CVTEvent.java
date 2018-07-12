@@ -35,6 +35,15 @@ public class CVTEvent {
 	}
 
 	/**
+	 * Copy constructor
+	 * @param cvtEvent create a new cvt event with the same track as the given event
+	 */
+	public CVTEvent(CVTEvent cvtEvent){
+		this.cvtTracks = new ArrayList<>();
+		this.cvtTracks.addAll(cvtEvent.getCvtTracks());
+	}
+	
+	/**
 	 * @return the cvtTracks
 	 */
 	public ArrayList<CVTRecTrack> getCvtTracks() {

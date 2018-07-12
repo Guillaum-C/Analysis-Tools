@@ -61,6 +61,17 @@ public class ForwardEvent {
 	}
 
 	/**
+	 * Copy constructor
+	 * @param forwardEvent create a new forward event with the same track/clusters as the given event
+	 */
+	public ForwardEvent(ForwardEvent forwardEvent){
+		this.calorimeterEvent = new CalorimeterEvent(forwardEvent.getCalorimeterEvent());
+		this.htccEvent = new HTCCEvent(forwardEvent.getHtccEvent());
+		this.ftofEvent = new FTOFEvent(forwardEvent.getFtofEvent());
+		this.forwardTrackerEvent = new ForwardTrackerEvent(forwardEvent.getForwardTrackerEvent());
+	}
+	
+	/**
 	 * @return the calorimeterEvent
 	 */
 	public CalorimeterEvent getCalorimeterEvent() {

@@ -29,6 +29,15 @@ public class ParticleEvent {
 	}
 	
 	/**
+	 * Copy constructor
+	 * @param particleEvent create a new particle event with the same particles as the given event
+	 */
+	public ParticleEvent(ParticleEvent particleEvent){
+		this.particles = new ArrayList<>();
+		this.particles.addAll(particleEvent.getParticles());
+	}
+	
+	/**
 	 * Get all the particles of the current event
 	 * 
 	 * @return the list of all particles
@@ -131,6 +140,14 @@ public class ParticleEvent {
 		for (Particle particle : newParticles){
 			this.getParticles().add(particle);
 		}
+	}
+	
+	/**
+	 * Remove a particle from the list of particles
+	 * @param particleToRemove particle to be removed
+	 */
+	public void removeParticle(Particle particleToRemove){
+		this.getParticles().remove(particleToRemove);
 	}
 	
 	/**

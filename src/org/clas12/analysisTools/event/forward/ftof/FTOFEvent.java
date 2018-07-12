@@ -36,6 +36,15 @@ public class FTOFEvent {
 	}
 
 	/**
+	 * Copy constructor
+	 * @param ftofEvent create a new ftof event with the same clusters as the given event
+	 */
+	public FTOFEvent(FTOFEvent ftofEvent){
+		this.ftofClusters = new ArrayList<>();
+		this.ftofClusters.addAll(ftofEvent.getFtofClusters());
+	}
+	
+	/**
 	 * @return the ftofClusters
 	 */
 	public ArrayList<FTOFRecCluster> getFtofClusters() {

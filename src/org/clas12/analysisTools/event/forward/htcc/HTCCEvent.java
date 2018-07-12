@@ -24,7 +24,7 @@ public class HTCCEvent {
 	 */
 	public HTCCEvent() {
 		super();
-		htccClusters  = new ArrayList<>();
+		this.htccClusters  = new ArrayList<>();
 	}
 	
 
@@ -34,6 +34,15 @@ public class HTCCEvent {
 	public HTCCEvent(ArrayList<HTCCRecCluster> htccClusters) {
 		super();
 		this.htccClusters = htccClusters;
+	}
+	
+	/**
+	 * Copy constructor
+	 * @param htccEvent create a new htcc event with the same clusters as the given event
+	 */
+	public HTCCEvent(HTCCEvent htccEvent){
+		this.htccClusters  = new ArrayList<>();
+		this.htccClusters.addAll(htccEvent.getHtccClusters());
 	}
 	
 	/**

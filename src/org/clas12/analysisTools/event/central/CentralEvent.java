@@ -33,6 +33,13 @@ public class CentralEvent {
 		this.cvtEvent = cvtEvent;
 	}
 
+	/**
+	 * Copy constructor
+	 * @param centralEvent create a new central event with the same trakcs/clusters as the given event
+	 */
+	public CentralEvent(CentralEvent centralEvent){
+		this.cvtEvent = new CVTEvent(centralEvent.getCvtEvent());
+	}
 	
 	/**
 	 * @return the cvtEvent

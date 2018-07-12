@@ -37,6 +37,15 @@ public class CalorimeterEvent {
 	}
 	
 	/**
+	 * Copy constructor 
+	 * @param calorimeterEvent create a new calo event with the same clusters as the given event
+	 */
+	public CalorimeterEvent(CalorimeterEvent calorimeterEvent){
+		this.calorimeterClusters = new ArrayList<>();
+		this.calorimeterClusters.addAll(calorimeterEvent.getCalorimeterClusters());
+	}
+	
+	/**
 	 * @return the calorimeterClusters
 	 */
 	public ArrayList<CalorimeterRecCluster> getCalorimeterClusters() {
