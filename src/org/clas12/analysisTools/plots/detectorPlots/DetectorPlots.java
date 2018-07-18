@@ -8,6 +8,6 @@ public interface DetectorPlots {
 	
 	public void createHistograms();
 	
-	public void fillHistogram(Event event);
+	public void fillHistograms(Event event);
 	
 }
