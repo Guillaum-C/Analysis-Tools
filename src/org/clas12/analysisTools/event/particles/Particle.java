@@ -337,9 +337,8 @@ public class Particle {
 	}
 
 	/**
-	 * Set beta (measured by ToF)
-	 * 
-	 * @return beta beta
+	 * Set beta (measured by ToF) 
+	 * @param beta beta
 	 */
 	public void setBeta(double beta) {
 		this.beta = beta;

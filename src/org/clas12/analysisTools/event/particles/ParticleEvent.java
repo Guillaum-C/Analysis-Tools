@@ -134,7 +134,7 @@ public class ParticleEvent {
 	/**
 	 * Add a list of particles to the current event
 	 * 
-	 * @param particle particle to add
+	 * @param newParticles list of particles to add
 	 */
 	public void addParticle(Particle... newParticles){
 		for (Particle particle : newParticles){

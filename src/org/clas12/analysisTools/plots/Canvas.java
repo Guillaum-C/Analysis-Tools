@@ -301,7 +301,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	
 	/**
 	 * Get a specific canvas
-	 * @param tabName
+	 * @param tabName name of the tab to access
 	 */
 	public EmbeddedCanvas getCanvas(String tabName){
 		EmbeddedCanvas canvas;
@@ -313,10 +313,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		return canvas;
 		
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Add a tab to the frame
@@ -353,7 +349,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param binX number of bins along X-axis
 	 * @param minX minimum value for X-axis
 	 * @param maxX maximum value for X-axis
-	 * @param logY true to have logarithmic Y-axis, false else
 	 */
 	public void create1DHisto(String tabName, int row, int column, String histoName, String title, String titleX, int binX, double minX, double maxX){
 		H1F newHisto = new H1F(histoName, binX, minX, maxX);
@@ -376,7 +371,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param binX number of bins along X-axis
 	 * @param minX minimum value for X-axis
 	 * @param maxX maximum value for X-axis
-	 * @param logY true to have logarithmic Y-axis, false else
 	 */
 	public void create1DHistoBySector(String tabName, int row, int numberOfColumns, String histoName, String title, String titleX, int binX, double minX, double maxX){
 		for (int sector=0; sector<numberOfColumns; sector++){
@@ -446,7 +440,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param binY number of bins along Y-axis
 	 * @param minY minimum value for Y-axis
 	 * @param maxY maximum value for Y-axis
-	 * @param logZ true to have logarithmic Z-axis, false else
 	 */
 	public void create2DHisto(String tabName, int row, int column, String histoName, String title, String titleX, String titleY, int binX, double minX, double maxX, int binY, double minY, double maxY){
 		H2F newHisto = new H2F(histoName, binX, minX, maxX, binY, minY, maxY);
@@ -474,7 +467,6 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * @param binY number of bins along Y-axis
 	 * @param minY minimum value for Y-axis
 	 * @param maxY maximum value for Y-axis
-	 * @param logZ true to have logarithmic Z-axis, false else
 	 */
 	public void create2DHistoBySector(String tabName, int row, int numberOfColumns, String histoName, String title, String titleX, String titleY, int binX, double minX, double maxX, int binY, double minY, double maxY){
 		for (int sector=0; sector<numberOfColumns; sector++){

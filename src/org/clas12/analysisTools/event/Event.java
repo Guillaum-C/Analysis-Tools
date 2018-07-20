@@ -195,15 +195,26 @@ public class Event {
 			this.setTrigger_bits(trigger_bits);
 		}
 
-		if (event.hasBank("HEL::adc") == true) {
-			DataBank bankParticle = event.getBank("HEL::adc");
-			int pedestal = bankParticle.getShort("ped", 0);
-			if (pedestal > BeamConstants.HELICITY_ADC_THRESHOLD) {
+//		if (event.hasBank("HEL::adc") == true) {
+//			DataBank bankParticle = event.getBank("HEL::adc");
+//			int pedestal = bankParticle.getShort("ped", 0);
+//			if (pedestal > BeamConstants.HELICITY_ADC_THRESHOLD) {
+//				this.setHelicity(1);
+//			} else {
+//				this.setHelicity(-1);
+//			}
+//		}
+		
+		if (event.hasBank("REC::Event") == true) {
+			DataBank bankEvent = event.getBank("REC::Event");
+			int helicity = bankEvent.getByte("Helic", 0);
+			if (helicity == 1){
 				this.setHelicity(1);
-			} else {
+			}else if (helicity == 0){
 				this.setHelicity(-1);
 			}
 		}
+		
 	}
 
 	/**

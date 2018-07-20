@@ -29,7 +29,7 @@ public class HTCCEvent {
 	
 
 	/**
-	 * @param htccClusters
+	 * @param htccClusters list of HTCC clusters
 	 */
 	public HTCCEvent(ArrayList<HTCCRecCluster> htccClusters) {
 		super();
@@ -92,8 +92,7 @@ public class HTCCEvent {
 	
 	/**
 	 * Associate reconstructed htcc clusters with a particle
-	 * 
-	 * @param particleEvent
+	 * @param particleEvent particleEvent to link
 	 */
 	public void linkBanks(ParticleEvent particleEvent){
 		for (HTCCRecCluster clusterRecHtcc : htccClusters){

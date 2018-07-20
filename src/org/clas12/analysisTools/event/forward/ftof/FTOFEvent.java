@@ -28,7 +28,8 @@ public class FTOFEvent {
 	}
 
 	/**
-	 * @param ftofClusters
+	 * Create new FTOF event
+	 * @param ftofClusters list of FTOF clusters
 	 */
 	public FTOFEvent(ArrayList<FTOFRecCluster> ftofClusters) {
 		super();
@@ -67,13 +68,8 @@ public class FTOFEvent {
 		this.getFtofClusters().add(ftofCluster);
 	}
 	
-	
-	
-	
-	
 	/**
 	 * Read ftof banks from a given event
-	 * 
 	 * @param event event to read
 	 */
 	public void readBanks(DataEvent event){
@@ -91,8 +87,7 @@ public class FTOFEvent {
 	
 	/**
 	 * Associate reconstructed ftof clusters with a particle
-	 * 
-	 * @param particleEvent
+	 * @param particleEvent particleEvent to link
 	 */
 	public void linkBanks(ParticleEvent particleEvent){
 		for (FTOFRecCluster clusterRecFtof : ftofClusters){
