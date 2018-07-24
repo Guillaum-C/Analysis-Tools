@@ -186,15 +186,15 @@ public class Event {
 	 */
 	public void readEventParametersBanks(DataEvent event) {
 
-		if (event.hasBank("RUN::config")) {
-			DataBank bank = event.getBank("RUN::config");
-			long TriggerWord = bank.getLong("trigger", 0);
+		if (event.hasBank("REC::Event")) {
+			DataBank bank = event.getBank("REC::Event");
+			long TriggerWord = bank.getLong("TRG", 0);
 			for (int i = DaqConstants.NUMBER_OF_TRIGGER_BITS - 1; i >= 0; i--) {
 				trigger_bits[i] = (TriggerWord & (1 << i)) != 0;
 			}
 			this.setTrigger_bits(trigger_bits);
 		}
-
+		
 //		if (event.hasBank("HEL::adc") == true) {
 //			DataBank bankParticle = event.getBank("HEL::adc");
 //			int pedestal = bankParticle.getShort("ped", 0);
