@@ -1,6 +1,8 @@
 package org.clas12.analysisTools.plots;
 
 import java.awt.GridLayout;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -721,13 +723,13 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	 * Save all plots into a hipo file
 	 * @param fileToWrite name of the file to write (use the following format: /path/file.hipo)
 	 */
-	public void saveAll(String fileToWrite){
+	public void saveAllOld(String fileToWrite){
 		System.out.println(" ================== WRITE ALL ====================");
 		TDirectory dirSave = new TDirectory();
 		
 		//TODO remove these 3 lines when bug is solved
 		H1F h1 = new H1F();
-		dirSave.mkdir("/toAvoidBug/");
+		dirSave.mkdir("/toAvoidBug/"); //fake directory to avoid bug
 		dirSave.cd("/toAvoidBug/");
 		dirSave.addDataSet(h1);
 		
@@ -754,12 +756,139 @@ public class Canvas extends EmbeddedCanvasTabbed {
         System.out.println(" ================== WRITE ALL DONE ====================");
 	}
 	
+
+	/**
+	 * Save all plots into a hipo file
+	 * @param fileToWrite name of the file to write (use the following format: /path/file.hipo)
+	 */
+	public void saveAll(String fileToWrite, boolean debug){
+		
+		/* ===== DISPLAY ===== */
+		System.out.println(" ===== SAVING HISTO TO "+fileToWrite+" =====");
+		PrintStream original = System.out;
+		if (!debug){
+			System.setOut(new PrintStream(new OutputStream() {public void write(int b) { }}));
+		}
+		
+		
+		
+		
+		/* ===== CREATING DIRECTORY ===== */
+		TDirectory dirSave = new TDirectory();
+		
+		/* ===== FILL DIRECTORY ===== */
+		//TODO remove these 4 lines when bug is fixed
+		dirSave.mkdir("/toAvoidBug/"); //fake directory to avoid bug
+		dirSave.cd("/toAvoidBug/");
+		H1F h1 = new H1F();
+		dirSave.addDataSet(h1);
+		
+		saveSubsystems(dirSave); //create and fill subdirectories
+		
+		/* ===== SAVE DIRECTORY ===== */
+        dirSave.writeFile(fileToWrite);
+       
+        
+        
+        /* ===== DISPLAY ===== */
+        if (!debug){
+        	System.setOut(original);
+        }
+        System.out.println("done\n");
+	}
+	
+	public void saveSubsystems(TDirectory dirSave){		
+		
+		String[] subsystems = { "Electron", "Photon", "Proton", "CVT", "DC", "DVCS", "MM", "Cone", "cut", " P ", "DVCS MM", "DVCS Cone", "Asym" };
+		
+		/* ===== CREATING SUBDIRECTORIES ===== */
+		for (String subSystem : subsystems){
+			dirSave.mkdir("/"+subSystem+"/");
+//			for (String subCategories : subcategories){
+//				dirSave.mkdir("/"+subSystem+"/"+subCategories+"/");
+//			}
+		}
+		
+//		boolean isNotWritten=true;
+		
+		
+		
+		/* ===== FILLING SUBDIRECTORIES WITH HISTOS ===== */
+		for (H1F histo1D:list1DHisto){
+			dirSave.mkdir("/H1F/"+histo1D.getName());
+			dirSave.cd("/H1F/"+histo1D.getName());
+			dirSave.addDataSet(histo1D);
+			for (String subSystem : subsystems){
+				if (histo1D.getName().toLowerCase().contains(subSystem.toLowerCase())){
+					dirSave.mkdir("/"+subSystem+"/"+histo1D.getName());
+					dirSave.cd("/"+subSystem+"/"+histo1D.getName());
+					dirSave.addDataSet(histo1D);
+//					for (String subCategory : subcategories){
+//						if (isNotWritten && histo1D.getName().toLowerCase().contains(subSystem.toLowerCase()) && histo1D.getName().toLowerCase().contains(subCategory.toLowerCase())){
+//							dirSave.mkdir("/"+subSystem+"/"+subCategory+"/"+histo1D.getName());
+//							dirSave.cd("/"+subSystem+"/"+subCategory+"/"+histo1D.getName());
+//							dirSave.addDataSet(histo1D);
+//							isNotWritten = false;
+//						}
+//					}
+				}
+			}
+		}
+//		isNotWritten = true;
+		
+		for (H2F histo2D:list2DHisto){
+			dirSave.mkdir("/H2F/"+histo2D.getName());
+			dirSave.cd("/H2F/"+histo2D.getName());
+			dirSave.addDataSet(histo2D);
+			for (String subSystem : subsystems){
+				if (histo2D.getName().toLowerCase().contains(subSystem.toLowerCase())){
+					dirSave.mkdir("/"+subSystem+"/"+histo2D.getName());
+					dirSave.cd("/"+subSystem+"/"+histo2D.getName());
+					dirSave.addDataSet(histo2D);
+//					for (String subCategory : subcategories){
+//						if (isNotWritten && histo2D.getName().toLowerCase().contains(subSystem.toLowerCase()) && histo2D.getName().toLowerCase().contains(subCategory.toLowerCase())){
+//							dirSave.mkdir("/"+subSystem+"/"+subCategory+"/"+histo2D.getName());
+//							dirSave.cd("/"+subSystem+"/"+subCategory+"/"+histo2D.getName());
+//							dirSave.addDataSet(histo2D);
+//							isNotWritten = false;
+//						}
+//					}
+				}
+			}
+		}
+//		isNotWritten = true;
+		
+		for (GraphErrors graph:listGraph){
+			dirSave.mkdir("/GRAPH/"+graph.getName());
+			dirSave.cd("/GRAPH/"+graph.getName());
+			dirSave.addDataSet(graph);
+			for (String subSystem : subsystems){
+				if (graph.getName().toLowerCase().contains(subSystem.toLowerCase())){
+					dirSave.mkdir("/"+subSystem+"/"+graph.getName());
+					dirSave.cd("/"+subSystem+"/"+graph.getName());
+					dirSave.addDataSet(graph);
+//					for (String subCategory : subcategories){
+//						if (isNotWritten && graph.getName().toLowerCase().contains(subSystem.toLowerCase()) && graph.getName().toLowerCase().contains(subCategory.toLowerCase())){
+//							dirSave.mkdir("/"+subSystem+"/"+subCategory+"/"+graph.getName());
+//							dirSave.cd("/"+subSystem+"/"+subCategory+"/"+graph.getName());
+//							dirSave.addDataSet(graph);
+//							isNotWritten = false;
+//						}
+//					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
 	/**
 	 * Read all plots contained in a hipo file
 	 * @param fileToRead hipo file to read (use the following format: /path/file.hipo)
 	 */
-	public void readAll(String fileToRead){
-		System.out.println(" ================== READ ALL ====================");
+	public static void readAll(String fileToRead){
+		System.out.println(" ===== READING HISTO FROM "+fileToRead+" =====");
 		TDirectory dirRead = new TDirectory();
 		
 		dirRead.readFile(fileToRead);
@@ -768,7 +897,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
         dirRead.tree();
         
         TBrowser browser = new TBrowser(dirRead);
-        System.out.println(" ================== READ ALL DONE ====================");
+        System.out.println("done\n");
 	}
 	
 	/**
