@@ -18,7 +18,13 @@ public class PionPlus extends Particle {
 	public PionPlus(){
 		super();
 	}
-	
+
+	/**
+	 * Create new pion +
+	 */
+	public PionPlus(Particle particle){
+		super(particle);
+	}
 	@Override
 	public double getMass(){
 		return PionPlus.mass;

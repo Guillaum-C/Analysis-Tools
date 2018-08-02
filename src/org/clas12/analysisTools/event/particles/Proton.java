@@ -19,6 +19,13 @@ public class Proton extends Particle {
 		super();
 	}
 	
+	/**
+	 * Create new proton
+	 */
+	public Proton(Particle particle){
+		super(particle);
+	}
+	
 	@Override
 	public double getMass(){
 		return Proton.mass;

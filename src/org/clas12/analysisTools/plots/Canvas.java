@@ -799,7 +799,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	
 	public void saveSubsystems(TDirectory dirSave){		
 		
-		String[] subsystems = { "Electron", "Photon", "Proton", "CVT", "DC", "DVCS", "MM", "Cone", "cut", " P ", "DVCS MM", "DVCS Cone", "Asym" };
+		String[] subsystems = { "Electron", "Photon", "Proton", "CVT", "DC", "DVCS", "MM", "Cone", "cut", " P ", "DVCS MM", "DVCS Cone", "Asymetry", "Kinematic", "Pi0" };
 		
 		/* ===== CREATING SUBDIRECTORIES ===== */
 		for (String subSystem : subsystems){

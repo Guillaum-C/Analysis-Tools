@@ -18,7 +18,13 @@ public class Electron extends Particle {
 	public Electron(){
 		super();
 	}
-	
+
+	/**
+	 * Create new electron
+	 */
+	public Electron(Particle particle){
+		super(particle);
+	}
 	@Override
 	public double getMass(){
 		return Electron.mass;

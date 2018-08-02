@@ -18,7 +18,13 @@ public class Photon extends Particle {
 	public Photon(){
 		super();
 	}
-	
+
+	/**
+	 * Create new photon
+	 */
+	public Photon(Particle particle){
+		super(particle);
+	}
 	@Override
 	public double getMass(){
 		return Photon.mass;

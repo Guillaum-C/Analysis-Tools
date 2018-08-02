@@ -33,7 +33,7 @@ public class Event {
 	/**
 	 * Helicity (can take values +1 or -1)
 	 */
-	private int helicity;
+	private int helicity=4;
 
 	/**
 	 * Create a new event
@@ -70,6 +70,8 @@ public class Event {
 		this.particleEvent = new ParticleEvent(oldEvent.getParticleEvent());
 		this.forwardEvent = new ForwardEvent(oldEvent.getForwardEvent());
 		this.centralEvent = new CentralEvent(oldEvent.getCentralEvent());
+		this.setTrigger_bits(oldEvent.getTrigger_bits());
+		this.setHelicity(oldEvent.getHelicity());
 	}
 
 	/**
@@ -172,7 +174,7 @@ public class Event {
 	 *            Helicity (can take only values +1 or -1)
 	 */
 	public void setHelicity(int helicity) {
-		if (helicity == -1 || helicity == 1) {
+		if (helicity == -1 ||helicity == 1) {
 			this.helicity = helicity;
 		} else {
 			throw new IllegalArgumentException("Helicity can only take values 1 and -1");
@@ -195,26 +197,40 @@ public class Event {
 			this.setTrigger_bits(trigger_bits);
 		}
 		
-//		if (event.hasBank("HEL::adc") == true) {
-//			DataBank bankParticle = event.getBank("HEL::adc");
-//			int pedestal = bankParticle.getShort("ped", 0);
-//			if (pedestal > BeamConstants.HELICITY_ADC_THRESHOLD) {
-//				this.setHelicity(1);
-//			} else {
-//				this.setHelicity(-1);
-//			}
-//		}
-		
-		if (event.hasBank("REC::Event") == true) {
-			DataBank bankEvent = event.getBank("REC::Event");
-			int helicity = bankEvent.getByte("Helic", 0);
-			if (helicity == 1){
+		if (event.hasBank("HEL::adc") == true) {
+			DataBank bankParticle = event.getBank("HEL::adc");
+//			bankParticle.show();
+			int pedestal = bankParticle.getShort("ped", 0);
+			if (pedestal > BeamConstants.HELICITY_ADC_THRESHOLD) {
 				this.setHelicity(1);
-			}else if (helicity == 0){
+			} else {
 				this.setHelicity(-1);
 			}
 		}
 		
+		//TOTO use this when fixed (sometimes this bank is not filled)
+//		if (event.hasBank("REC::Event") == true) {
+//			DataBank bankEvent = event.getBank("REC::Event");
+////			bankEvent.show();
+//			int helicity = bankEvent.getByte("Helic", 0);
+//			System.out.println("helic"+helicity);
+//			if (helicity == 1){
+//				this.setHelicity(1);
+//			}else if (helicity == 0){
+//				this.setHelicity(-1);
+//			}
+//		}
+		
+		//TODO remove this when REC::Event is correctly filled for MC
+		if (event.hasBank("MC::Header") == true) {
+			DataBank bankEvent = event.getBank("MC::Header");
+			float helicity = bankEvent.getFloat("helicity", 0);
+			if (helicity == 1){
+				this.setHelicity(1);
+			}else if (helicity == -1){
+				this.setHelicity(-1);
+			}
+		}
 	}
 
 	/**

@@ -96,7 +96,27 @@ public class Particle {
 		this.ftofRecClusters = new ArrayList<>();
 		this.htccRecClusters = new ArrayList<>();
 		this.forwardRecTrack = null;
+		this.cvtRecTrack = null;
 	}
+	
+	/**
+	 * Create a new particle with same attributes as the given particle
+	 */
+	public Particle(Particle particle) {
+		this.fourMomentum = particle.getFourMomentum();
+		this.momentum = particle.getMomentum();
+		this.vertex = particle.getVertex();
+		this.calorimeterRecClusters = particle.getCalorimeterRecClusters();
+		this.ftofRecClusters = particle.getFTOFClusters();
+		this.htccRecClusters = particle.getHTCCClusters();
+		this.forwardRecTrack = particle.getForwardRecTrack();
+		this.cvtRecTrack = particle.getCvtRecTrack();
+		this.theta = particle.theta;
+		this.phi = particle.phi;
+		this.charge = particle.charge;
+		this.beta = particle.beta;
+	}
+
 
 	/**
 	 * Set unique ID (starts at 0)
