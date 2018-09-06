@@ -24,7 +24,7 @@ public class CVTRecTrack extends RecTrack{
 	 * @param bankRec bank to read
 	 * @param bankRow row of the bank
 	 */
-	public void readBankRow(DataBank bankRec, int bankRow){
+	public void readBankRowFromCVTRec(DataBank bankRec, int bankRow){
 		int id = bankRec.getShort("ID", bankRow);
 		int detector = DetectorType.CVT.getDetectorId();
 		int charge = bankRec.getByte("q", bankRow);
@@ -60,4 +60,5 @@ public class CVTRecTrack extends RecTrack{
 		this.setVertex(new Vector3(vx,vy,vz));
 		this.setParticleId(particleId);
 	}
+	
 }

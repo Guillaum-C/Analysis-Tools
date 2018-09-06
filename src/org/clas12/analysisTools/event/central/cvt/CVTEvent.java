@@ -2,8 +2,10 @@ package org.clas12.analysisTools.event.central.cvt;
 
 import java.util.ArrayList;
 
+import org.clas12.analysisTools.event.forward.forwardTracker.ForwardRecTrack;
 import org.clas12.analysisTools.event.particles.Particle;
 import org.clas12.analysisTools.event.particles.ParticleEvent;
+import org.jlab.detector.base.DetectorType;
 import org.jlab.io.base.DataBank;
 import org.jlab.io.base.DataEvent;
 
@@ -76,17 +78,42 @@ public class CVTEvent {
 	 */
 	public void readBanks(DataEvent event){
 		//TODO use REC::Tracks when available
+		if (event.hasBank("REC::Track") == true) {
+			DataBank bankRecTrack = event.getBank("REC::Track");
+			for (int iteratorRecTrack = 0; iteratorRecTrack < bankRecTrack.rows(); iteratorRecTrack++) {
+				if (bankRecTrack.getByte("detector", iteratorRecTrack) == DetectorType.CVT.getDetectorId()){
+					CVTRecTrack newRecTrack = new CVTRecTrack();
+					newRecTrack.readBankRow(bankRecTrack, iteratorRecTrack);
+					this.addCVTTrack(newRecTrack);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Read tracks banks from a given event
+	 * 
+	 * @param event event to read
+	 */
+	public void readBanksFromCVTRec(DataEvent event){
+		//TODO use REC::Tracks when available
+		
 		if (event.hasBank("CVTRec::Tracks") == true) {
 			DataBank bankRecTrack = event.getBank("CVTRec::Tracks");
 			for (int iteratorRecTrack = 0; iteratorRecTrack < bankRecTrack.rows(); iteratorRecTrack++) {
 				//if (bankRecTrack.getByte("detector", iteratorRecTrack) == DetectorType.CVT.getDetectorId()){
 					CVTRecTrack newRecTrack = new CVTRecTrack();
-					newRecTrack.readBankRow(bankRecTrack, iteratorRecTrack);
+					newRecTrack.readBankRowFromCVTRec(bankRecTrack, iteratorRecTrack);
 					this.addCVTTrack(newRecTrack);
 				//}
 			}
 		}
+		
 	}
+	
+	
+	
+	
 	
 
 	/**

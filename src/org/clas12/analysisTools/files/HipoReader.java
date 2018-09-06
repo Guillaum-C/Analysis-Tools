@@ -38,6 +38,38 @@ public class HipoReader {
 	
 	
 	/**
+	 * @return the fileList
+	 */
+	public List<String> getFileList() {
+		return fileList;
+	}
+
+	
+	/**
+	 * @return the currentFile
+	 */
+	public int getCurrentFile() {
+		return currentFile;
+	}
+
+	
+	/**
+	 * @return the hipoFile
+	 */
+	public HipoDataSource getHipoFile() {
+		return hipoFile;
+	}
+
+	
+	/**
+	 * @return the currentEvent
+	 */
+	public int getCurrentEvent() {
+		return currentEvent;
+	}
+	
+
+	/**
 	 * Create Hipo reader and add with a list of files
 	 * 
 	 * @param fileList  path of files to analyze
@@ -133,6 +165,42 @@ public class HipoReader {
 		return newEvent;
 	}
 	
+	public void goToEvent(int eventNumber){
+		this.hipoFile.gotoEvent(eventNumber);
+		this.currentEvent=eventNumber;
+	}
+	
+	public DataEvent getRelativeEvent(int eventDistance){
+		
+//		DataEvent newEvent = null;
+//		
+//		int iterateFile = currentFile;
+//		int iterateEvent = currentEvent;
+//		
+//		while (iterateEvent+eventDistance < 1 || iterateEvent+eventDistance>this.hipoFile.getSize()){
+//			if (currentEvent+eventDistance > this.hipoFile.getSize()){
+//				iterateFile++;
+//				HipoDataSource hipoNextFile = new HipoDataSource();
+//				if (iterateFile<this.fileList.size()){
+//					this.hipoFile.open(this.fileList.get(iterateFile));
+//				}else{
+//					return null;
+//				}
+//			}else if (currentEvent+eventDistance<1){
+//				
+//			}
+//		}
+//		newEvent = this.hipoFile.gotoEvent(iterateEvent+eventDistance);
+//		return newEvent;
+		
+		DataEvent newEvent = null;
+		if (currentEvent+eventDistance >= 1 && currentEvent+eventDistance<this.hipoFile.getSize()){
+			newEvent = this.hipoFile.gotoEvent(currentEvent+eventDistance);
+		}
+		this.hipoFile.gotoEvent(currentEvent);
+		return newEvent;
+	}
+	
 	/**
 	 * Open the next file if exists
 	 */
@@ -163,5 +231,6 @@ public class HipoReader {
 			return true;
 		}
 	}
+	
 	
 }

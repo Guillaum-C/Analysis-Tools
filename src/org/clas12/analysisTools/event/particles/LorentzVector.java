@@ -374,7 +374,7 @@ public class LorentzVector {
 	 */
 	public String toString() {
 		String toString = null;
-		toString = "[" + this.px() + ", " + this.py() + ", " + this.pz() + ", " + this.e() + "]";
+		toString = "[" + this.e() + ", "+ this.px() + ", " + this.py() + ", " + this.pz() + "]";
 		return toString;
 	}
 	

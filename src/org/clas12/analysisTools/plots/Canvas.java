@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -107,12 +108,20 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	public H1F get1DHisto(String histoName){
 		H1F histoFound = null;
 		boolean plotExist=false;
-		for (H1F histoIterator : this.getList1DHisto()){
-			if (histoIterator.getName().equals(histoName)){
+		Iterator<H1F> histoIterator = this.getList1DHisto().iterator();
+		while (histoIterator.hasNext() && histoFound == null){
+			H1F histo = histoIterator.next();
+			if (histo.getName().equals(histoName)){
 				plotExist=true;
-				histoFound=histoIterator;
+				histoFound=histo;
 			}
 		}
+//		for (H1F histoIterator : this.getList1DHisto()){
+//			if (histoIterator.getName().equals(histoName)){
+//				plotExist=true;
+//				histoFound=histoIterator;
+//			}
+//		}
 		if (!plotExist){
 			System.out.println("Plots error: Cannot fill histogram "+histoName+", no histogram with this name exist.");
 			throw new IllegalArgumentException("Histogram with that name doesn't exists");
@@ -166,12 +175,20 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	public H2F get2DHisto(String histoName){
 		H2F histoFound = null;
 		boolean plotExist=false;
-		for (H2F histoIterator : this.getList2DHisto()){
-			if (histoIterator.getName().equals(histoName)){
+		Iterator<H2F> histoIterator = this.getList2DHisto().iterator();
+		while (histoIterator.hasNext() && histoFound == null){
+			H2F histo = histoIterator.next();
+			if (histo.getName().equals(histoName)){
 				plotExist=true;
-				histoFound=histoIterator;
+				histoFound=histo;
 			}
 		}
+//		for (H2F histoIterator : this.getList2DHisto()){
+//			if (histoIterator.getName().equals(histoName)){
+//				plotExist=true;
+//				histoFound=histoIterator;
+//			}
+//		}
 		if (!plotExist){
 			System.out.println("Plots error: Cannot fill histogram "+histoName+", no histogram with this name exist.");
 			throw new IllegalArgumentException("Histogram with that name doesn't exists");
@@ -799,7 +816,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 	
 	public void saveSubsystems(TDirectory dirSave){		
 		
-		String[] subsystems = { "Electron", "Photon", "Proton", "CVT", "DC", "DVCS", "MM", "Cone", "cut", " P ", "DVCS MM", "DVCS Cone", "Asymetry", "Kinematic", "Pi0" };
+		String[] subsystems = { "Electron", "Photon", "Proton", "CVT", "DC", "DVCS", "MM", "Cone", "cut", " P ", "DVCS MM", "DVCS Cone", "Asymetry", "Kinematic", "Pi0", "Pi0 M" };
 		
 		/* ===== CREATING SUBDIRECTORIES ===== */
 		for (String subSystem : subsystems){
@@ -879,8 +896,7 @@ public class Canvas extends EmbeddedCanvasTabbed {
 			}
 		}
 	}
-	
-	
+		
 	
 	
 	/**

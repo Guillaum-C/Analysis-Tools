@@ -33,7 +33,7 @@ public class Event {
 	/**
 	 * Helicity (can take values +1 or -1)
 	 */
-	private int helicity=4;
+	private int helicity=0;
 
 	/**
 	 * Create a new event
@@ -174,7 +174,7 @@ public class Event {
 	 *            Helicity (can take only values +1 or -1)
 	 */
 	public void setHelicity(int helicity) {
-		if (helicity == -1 ||helicity == 1) {
+		if (helicity == -1 ||helicity == 1 ||helicity==0) {
 			this.helicity = helicity;
 		} else {
 			throw new IllegalArgumentException("Helicity can only take values 1 and -1");
@@ -206,7 +206,21 @@ public class Event {
 			} else {
 				this.setHelicity(-1);
 			}
+		}else if (event.hasBank("REC::Event") == true) {
+			DataBank bankEvent = event.getBank("REC::Event");
+//			bankEvent.show();
+			int helicity = bankEvent.getByte("Helic", 0);
+//			System.out.println("Helic: " + helicity);
+			if (helicity == 1) {
+				this.setHelicity(1);
+			} else if (helicity == 0) {
+				this.setHelicity(-1);
+			} else {
+				this.setHelicity(0);
+//				System.out.println("Warning: Helic error: " + helicity+ "(event will be ignored for asymetry)");
+			}
 		}
+		
 		
 		//TOTO use this when fixed (sometimes this bank is not filled)
 //		if (event.hasBank("REC::Event") == true) {

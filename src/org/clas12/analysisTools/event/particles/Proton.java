@@ -24,6 +24,7 @@ public class Proton extends Particle {
 	 */
 	public Proton(Particle particle){
 		super(particle);
+		this.setMomentum(particle.getPx(), particle.getPy(), particle.getPz());
 	}
 	
 	@Override
