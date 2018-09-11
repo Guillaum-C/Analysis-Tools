@@ -347,9 +347,9 @@ public class Canvas extends EmbeddedCanvasTabbed {
 		this.getCanvas(tabName).setGridY(true);
 		
 		if(largeSize){
-			this.getCanvas(tabName).setTitleSize(20);
-			this.getCanvas(tabName).setAxisTitleSize(18);
-			this.getCanvas(tabName).setAxisLabelSize(18);
+			this.getCanvas(tabName).setTitleSize(48);
+			this.getCanvas(tabName).setAxisTitleSize(48);
+			this.getCanvas(tabName).setAxisLabelSize(48);
 		}else{
 			this.getCanvas(tabName).setTitleSize(12);
 			this.getCanvas(tabName).setAxisTitleSize(10);
