@@ -353,8 +353,7 @@ public class LorentzVector {
 	 * @return the multiplied Lorentz-vector
 	 */
 	public LorentzVector multiply(double factor) {
-		LorentzVector newVector = new LorentzVector(this);
-		this.fact(factor);
+		LorentzVector newVector = new LorentzVector( new Vector3 (factor*this.px(), factor*this.py(), factor*this.pz()), factor*this.energy);
 		return newVector;
 	}
 	
